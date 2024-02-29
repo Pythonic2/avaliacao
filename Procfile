@@ -1,1 +1,1 @@
-web: gunicorn nome_do_seu_projeto.wsgi:application --log-file -
+web: gunicorn core.wsgi --config gunicorn.conf.py
