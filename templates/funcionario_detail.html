@@ -9,5 +9,21 @@
     <h5>avalie este corno:</h5>
     {{funcionario.nome}}<br>
     {{funcionario.id}}
+
+    <img src="{{funcionario.qrcode.url}}" id="imagemClicavel" alt="Clique para imprimir esta imagem">
+
+<script>
+document.getElementById("imagemClicavel").addEventListener("click", function() {
+  var imagem = document.createElement('img');
+  imagem.src = "{{funcionario.qrcode.url}}";
+  imagem.style.display = "none"; // Escondendo a imagem adicionada ao DOM.
+  document.body.appendChild(imagem);
+
+  window.print();
+
+  document.body.removeChild(imagem); // Removendo a imagem depois de imprimir.
+});
+</script>
+
 </body>
 </html>

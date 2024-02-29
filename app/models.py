@@ -3,6 +3,7 @@ import qrcode
 from io import BytesIO
 from django.core.files import File
 from PIL import Image
+from django.urls import reverse
 
 class Funcionario(models.Model):
     nome = models.CharField(max_length=150)
@@ -38,3 +39,7 @@ class Funcionario(models.Model):
         self.qrcode.save(file_name, File(stream), save=False)
         
         super().save(*args, **kwargs)  # Salva as alterações no banco de dados
+
+
+    def get_absolute_url(self):
+        return reverse("author-detail", kwargs={"pk": self.pk})
