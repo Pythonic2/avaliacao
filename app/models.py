@@ -4,13 +4,22 @@ from io import BytesIO
 from django.core.files import File
 from PIL import Image
 from django.urls import reverse
+from django.conf import settings
+from django.db import models
+from dataclasses import dataclass
+from django.contrib.auth.models import User
+
+
+from django.db import models
+
+
 
 class Funcionario(models.Model):
     nome = models.CharField(max_length=150)
     qrcode = models.ImageField(blank=True, upload_to='qrcode')
     site = models.CharField(max_length=150, default='www.google.com.br/')  
     codigo = models.CharField(max_length=300, blank=True)  
-
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     def __str__(self):
         return f"{self.nome} - {self.site}"  
 
@@ -43,3 +52,4 @@ class Funcionario(models.Model):
 
     def get_absolute_url(self):
         return reverse("author-detail", kwargs={"pk": self.pk})
+    

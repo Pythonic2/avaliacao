@@ -1,7 +1,6 @@
 from django import forms
 from app.models import Funcionario
 
-from django import forms
 
 
 class ContactForm(forms.ModelForm):

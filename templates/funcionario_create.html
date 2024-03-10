@@ -1,0 +1,34 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"/>
+
+    <title>Document</title>
+</head>
+<body>
+    {% if autenticado %}
+        <form method="post" id="myform">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" id="save-button">
+            <a href="{% url 'logout' %}">Logout</a>
+        </form>
+
+        <div id="funcionarios">
+            {% for f in funcionarios %}
+                <p>{{ f.nome }}</p>
+            {% endfor %}
+        </div>
+    {% else %}
+        <span>é preciso fazer login para acessar essa área:</span>
+        <a href="{% url 'login' %}">Entrar</a>
+    {% endif %}
+
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script src="{% static 'js.js' %}"></script>
+</body>
+</html>
