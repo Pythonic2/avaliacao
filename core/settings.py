@@ -19,7 +19,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 MESSAGE_TAGS = {
     messages.ERROR: 'danger',
 }
-LOGIN_REDIRECT_URL = 'list_funci'
+LOGIN_REDIRECT_URL = 'dashboard'
 LOGIN_URL = 'login'
 
 

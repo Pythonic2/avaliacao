@@ -1,12 +1,9 @@
-{% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"/>
-
     <title>Document</title>
 </head>
 <body>
@@ -14,7 +11,7 @@
         <form method="post" id="myform">
             {% csrf_token %}
             {{ form.as_p }}
-            <input type="submit" id="save-button">
+            <input type="button" id="save-button" value="Save">
             <a href="{% url 'logout' %}">Logout</a>
         </form>
 
@@ -29,6 +26,30 @@
     {% endif %}
 
     <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
-    <script src="{% static 'js.js' %}"></script>
+    <script>
+        $(document).ready(function(){
+    $('#save-button').click(function(){
+        var formData = $('#myform').serialize();
+        $.ajax({
+            type: 'POST',
+            url: '{% url "create_funci" %}',
+            data: formData,
+            success: function(response){
+                if (response && response.nome) {
+                    alert('Funcionário cadastrado com sucesso: ' + response.nome);
+                    $('#funcionarios').prepend('<p>' + response.nome + '</p>'); // Adiciona no topo da lista
+                    $('#myform')[0].reset(); // Limpa os campos do formulário
+                } else {
+                    alert('Nome do funcionário não disponível.');
+                }
+            },
+            error: function(xhr){
+                alert('Erro ao cadastrar funcionário.');
+            }
+        });
+    });
+});
+
+    </script>
 </body>
 </html>
