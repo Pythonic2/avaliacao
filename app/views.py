@@ -29,7 +29,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.http import JsonResponse
 from .forms import SignUpForm,NovoFunciForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-
+from django.utils import timezone
+from datetime import timedelta
 from django.http import JsonResponse
 from django.urls import reverse_lazy
 from django.views.generic import FormView
@@ -102,33 +103,51 @@ class DashBoardView(LoginRequiredMixin,TemplateView):
         form = self.form_class()
         user = self.request.user
         autenticado = user.is_authenticated
-        lista = Funcionario.objects.filter(usuario=user).order_by('-id')
-        print(f"##############{user}#################")
-
-        funcionario = Funcionario.objects.get(nome='igor')
-        # Contagem de avaliações "Bom" para atendimento
-        avaliacoes_bom_atendimento = Avaliacao.objects.filter(funcionario=funcionario, atendimento='Bom').count()
-        regular_atendimento = Avaliacao.objects.filter(funcionario=funcionario, atendimento='Regular ').count()
-        regular_higiene = Avaliacao.objects.filter(funcionario=funcionario, higiene='Regular ').count()
-        # Contagem de avaliações "Ruim" para atendimento
-        avaliacoes_ruim_atendimento = Avaliacao.objects.filter(funcionario=funcionario, atendimento='Ruim').count()
-        # Contagem de avaliações "Bom" para higiene
-        avaliacoes_bom_higiene = Avaliacao.objects.filter(funcionario=funcionario, higiene='Bom').count()
-        # Contagem de avaliações "Ruim" para higiene
-        avaliacoes_ruim_higiene = Avaliacao.objects.filter(funcionario=funcionario, higiene='Ruim').count()
-        total_avaliacoes = Avaliacao.objects.filter(funcionario=funcionario).count()
-
-        print("Total de avaliações para o funcionário:", total_avaliacoes)
-        print("Total de avaliações", total_avaliacoes)
-        print("Avaliações 'Bom' para atendimento:", avaliacoes_bom_atendimento)
-        print("Avaliações 'regular' para atendimento:", regular_atendimento)
-        print("Avaliações 'regular' para higiene:", regular_higiene)
-        print("Avaliações 'Ruim' para atendimento:", avaliacoes_ruim_atendimento)
-        print("Avaliações 'Bom' para higiene:", avaliacoes_bom_higiene)
-        print("Avaliações 'Ruim' para higiene:", avaliacoes_ruim_higiene)
-      
+        funcionario_existe = Funcionario.DoesNotExist
         
-        return render(request,self.template_name,{'form':form,'autenticado':autenticado,'funcionarios':lista,'tot':total_avaliacoes})
+        lista = Funcionario.objects.filter(usuario=user).order_by('-id')
+        for funcionario in lista:
+            funcionario.total_avaliacoes = Avaliacao.objects.filter(funcionario=funcionario).count()
+        print(f"##############{user}#################")
+        try:
+            funcionario = Funcionario.objects.get(nome='igor')
+            # Contagem de avaliações "Bom" para atendimento
+            avaliacoes_bom_atendimento = Avaliacao.objects.filter(funcionario=funcionario, atendimento='Bom').count()
+            regular_atendimento = Avaliacao.objects.filter(funcionario=funcionario, atendimento='Regular ').count()
+            regular_higiene = Avaliacao.objects.filter(funcionario=funcionario, higiene='Regular ').count()
+            # Contagem de avaliações "Ruim" para atendimento
+            avaliacoes_ruim_atendimento = Avaliacao.objects.filter(funcionario=funcionario, atendimento='Ruim').count()
+            # Contagem de avaliações "Bom" para higiene
+            avaliacoes_bom_higiene = Avaliacao.objects.filter(funcionario=funcionario, higiene='Bom').count()
+            # Contagem de avaliações "Ruim" para higiene
+            avaliacoes_ruim_higiene = Avaliacao.objects.filter(funcionario=funcionario, higiene='Ruim').count()
+            total_avaliacoes = Avaliacao.objects.filter(funcionario=funcionario).count()
+
+        
+            data_atual = timezone.now()
+
+            # Data de 7 dias atrás
+            data_sete_dias_atras = data_atual - timedelta(days=7)
+
+            # Filtrar avaliações dos últimos 7 dias para o funcionário
+            avaliacoes_ultimos_sete_dias = Avaliacao.objects.filter(funcionario=funcionario, data__gte=data_sete_dias_atras, data__lte=data_atual)
+
+            # Contagem de avaliações dos últimos 7 dias
+            total_avaliacoes_ultimos_sete_dias = avaliacoes_ultimos_sete_dias.count()
+            print("Total de avaliações nos últimos 7 dias para o funcionário:", total_avaliacoes_ultimos_sete_dias)
+
+        except Exception as e:
+            lista= []
+            total_avaliacoes = 0
+            
+        context = {
+            'form':form,
+            'autenticado':autenticado,
+            'funcionarios':lista,
+            'tot':total_avaliacoes
+        }
+        print(context['funcionarios'])
+        return render(request,self.template_name,context)
         
 
 class ListFuncionarios(LoginRequiredMixin,ListView):

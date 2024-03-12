@@ -8,7 +8,7 @@ from django.conf import settings
 from django.db import models
 from dataclasses import dataclass
 from django.contrib.auth.models import User
-
+from time import strftime
 
 from django.db import models
 
@@ -29,6 +29,7 @@ class Funcionario(models.Model):
     codigo = models.CharField(max_length=300, blank=True)
     unidade = models.ForeignKey(Unidade, on_delete=models.CASCADE)  
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    total_avaliacoes = models.IntegerField(default=0)
     
     def __str__(self):
         return f"{self.nome} - {self.site}"  
@@ -75,7 +76,7 @@ class Avaliacao(models.Model):
     atendimento = models.CharField(max_length=10, choices=FUNCIONARIO_CHOICES)
     higiene = models.CharField(max_length=10, choices=FUNCIONARIO_CHOICES)
     comentario = models.TextField(blank=True)
-
+    data = models.DateField(default=strftime("%d/%m/%Y"), blank=True)
     def __str__(self):
         return f"Avaliação de {self.funcionario.nome}"
     

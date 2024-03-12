@@ -180,7 +180,6 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    
                                     {% for funci in funcionarios%}
                                         <tr id="funcionarios">
                                             <td class="text-gray-900" scope="row">
@@ -193,11 +192,12 @@
                                                 {{funci.unidade}}
                                             </td>
                                             <td class="fw-bolder text-gray-500">
-                                                {{funci.unidade}}
+                                                {{ funcionario.total_avaliacoes }}
                                             </td>
                                     
                                         </tr>
                                     {%endfor%}
+                                   
                                     
                                 </tbody>
                             </table>
