@@ -82,7 +82,15 @@ class NovoFunciForm(forms.ModelForm):
                 "class": "form-control"
             }
         ))
+    
+    unidade = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Unidade",
+                "class": "form-control"
+            }
+        ))
 
     class Meta:
         model = Funcionario
-        fields = ('nome', 'codigo')
+        fields = ('nome', 'codigo','unidade')

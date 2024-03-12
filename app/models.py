@@ -14,12 +14,22 @@ from django.db import models
 
 
 
+
+class Unidade(models.Model):
+    nome = models.CharField(max_length=100)
+    end = models.CharField(max_length=100)
+
+    def __str__(self) -> str:
+        return f'{self.nome} - {self.end}'
+
 class Funcionario(models.Model):
     nome = models.CharField(max_length=150)
     qrcode = models.ImageField(blank=True, upload_to='qrcode')
     site = models.CharField(max_length=150, default='www.google.com.br/')  
-    codigo = models.CharField(max_length=300, blank=True)  
+    codigo = models.CharField(max_length=300, blank=True)
+    unidade = models.ForeignKey(Unidade, on_delete=models.CASCADE)  
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    
     def __str__(self):
         return f"{self.nome} - {self.site}"  
 
@@ -53,3 +63,27 @@ class Funcionario(models.Model):
     def get_absolute_url(self):
         return reverse("author-detail", kwargs={"pk": self.pk})
     
+
+class Avaliacao(models.Model):
+    FUNCIONARIO_CHOICES = (
+        ('Bom', 'Bom'),
+        ('Regular', 'Regular'),
+        ('Ruim', 'Ruim'),
+    )
+
+    funcionario = models.ForeignKey('Funcionario', on_delete=models.CASCADE)
+    atendimento = models.CharField(max_length=10, choices=FUNCIONARIO_CHOICES)
+    higiene = models.CharField(max_length=10, choices=FUNCIONARIO_CHOICES)
+    comentario = models.TextField(blank=True)
+
+    def __str__(self):
+        return f"Avaliação de {self.funcionario.nome}"
+    
+
+
+
+
+class AdministradorUnidade(models.Model):
+    nome = models.CharField(max_length=100)
+    cargo = models.CharField(max_length=100)
+    unidade = models.ForeignKey(Unidade, on_delete=models.CASCADE)

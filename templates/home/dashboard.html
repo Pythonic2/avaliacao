@@ -18,7 +18,7 @@
                     <svg class="dropdown-icon text-gray-400 me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"></path></svg>
                     Adicionar Funcionário
                 </a>
-                <a class="dropdown-item d-flex align-items-center" href="{%url 'list_funci'%}">
+                <a class="dropdown-item d-flex align-items-center" href="#funcionarios_table">
                     <svg class="dropdown-icon text-gray-400 me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"></path></svg>                            
                     Listar Funcionarios
                 </a>
@@ -43,25 +43,25 @@
             <div class="card bg-yellow-100 border-0 shadow">
                 <div class="card-header d-sm-flex flex-row align-items-center flex-0">
                     <div class="d-block mb-3 mb-sm-0">
-                        <div class="fs-5 fw-normal mb-2">Sales Value</div>
-                        <h2 class="fs-3 fw-extrabold">$10,567</h2>
+                        <div class="fs-5 fw-normal mb-2">Feed Back geral</div>
+                        <!-- <h2 class="fs-3 fw-extrabold">$10,567</h2> -->
                         <div class="small mt-2"> 
-                            <span class="fw-normal me-2">Yesterday</span>                              
+                            <span class="fw-normal me-2">Até hoje</span>                              
                             <span class="fas fa-angle-up text-success"></span>                                   
-                            <span class="text-success fw-bold">10.57%</span>
+                            <span class="text-success fw-bold">{{tot}}</span>
                         </div>
                     </div>
-                    <div class="d-flex ms-auto">
+                    <!-- <div class="d-flex ms-auto">
                         <a href="#" class="btn btn-secondary text-dark btn-sm me-2">Month</a>
                         <a href="#" class="btn btn-dark btn-sm me-3">Week</a>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="card-body p-2">
                     <div class="ct-chart-sales-value ct-double-octave ct-series-g"></div>
                 </div>
             </div>
         </div>
-        <div class="col-12 col-sm-6 col-xl-4 mb-4">
+        <!-- <div class="col-12 col-sm-6 col-xl-4 mb-4">
             <div class="card border-0 shadow">
                 <div class="card-body">
                     <div class="row d-block d-xl-flex align-items-center">
@@ -151,7 +151,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
     <div class="row">
         <div class="col-12 col-xl-8">
@@ -161,85 +161,44 @@
                         <div class="card-header">
                             <div class="row align-items-center">
                                 <div class="col">
-                                    <h2 class="fs-5 fw-bold mb-0">Page visits</h2>
+                                    <h2 class="fs-5 fw-bold mb-0">Funcionários cadastrados</h2>
                                 </div>
                                 <div class="col text-end">
-                                    <button type="button" class="btn btn-block btn-gray-800 mb-3" data-bs-toggle="modal" data-bs-target="#modal-default">Novo Funcionario</button>
-                                    <div class="col-lg-4">
-                            
-                                        <div class="modal fade" id="modal-default" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h2 class="h6 modal-title">Terms of Service</h2>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <form method="post" action="" class="mt-4" id="myform">
-                                
-                                                        {% csrf_token %}
-                        
-                                                        <!-- Form -->
-                                                        <div class="form-group mb-4">
-                                                            <div class="input-group">
-                                                                <span class="input-group-text" id="basic-addon1">
-                                                                    <span class="fas fa-user-circle"></span>
-                                                                </span>
-                                                                {{ form.nome }}
-                                                            </div>  
-                                                        </div>
-                                                        <!-- End of Form -->
-                                                        <div class="form-group">
-                                                            <!-- Form -->
-                                                        <div class="form-group mb-4">
-                                                            <div class="input-group">
-                                                                <span class="input-group-text" id="basic-addon2">
-                                                                    <span class="fas fa-unlock-alt"></span>
-                                                                </span>
-                                                                {{ form.codigo }}
-                                                            </div>  
-                                                        </div>
-                                                            <!-- End of Form -->
-                                                            <div class="d-flex justify-content-between align-items-top mb-4">
-                                                                
-                                                            </div>
-                                                        </div>
-                                                        <div class="d-grid">
-                                                            <button type="submit" name="login" class="btn btn-gray-800">Sign IN</button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- End of Modal Content -->
-                                    </div>
+                                    <a href="{% url 'create_funci'%}" type="button" class="btn btn-block btn-gray-800 mb-3" id="funcionarios_table">Novo Funcionario</a>
                                 </div>
                             </div>
                         </div>
                         <div class="table-responsive">
-                            <table class="table align-items-center table-flush">
+                            <table class="table align-items-center table-flush" x>
                                 <thead class="thead-light">
                                 <tr>
-                                    <th class="border-bottom" scope="col">Page name</th>
-                                    <th class="border-bottom" scope="col">Page Views</th>
-                                    <th class="border-bottom" scope="col">Page Value</th>
-                                    <th class="border-bottom" scope="col">Bounce rate</th>
+                                    <th class="border-bottom" scope="col">Id</th>
+                                    <th class="border-bottom" scope="col">Nome</th>
+                                    <th class="border-bottom" scope="col">Unidade</th>
+                                    <th class="border-bottom" scope="col">Avaliações</th>
+
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr id="funcionarios">
-                                    {% for funci in funcionarios%}
-                                    <th class="text-gray-900" scope="row">
-                                        {{funci.id}}
-                                    </th>
-                                    <td class="fw-bolder text-gray-500">
-                                       {{funci.nome}}
-                                    </td>
-                                    <td class="fw-bolder text-gray-500">
-                                        {{funci.codigo}}
-                                    </td>
                                     
-                                </tr>
-                                {%endfor%}
+                                    {% for funci in funcionarios%}
+                                        <tr id="funcionarios">
+                                            <td class="text-gray-900" scope="row">
+                                                {{funci.id}}
+                                            </td>
+                                            <td class="fw-bolder text-gray-500">
+                                                {{funci.nome}}
+                                            </td>
+                                            <td class="fw-bolder text-gray-500">
+                                                {{funci.unidade}}
+                                            </td>
+                                            <td class="fw-bolder text-gray-500">
+                                                {{funci.unidade}}
+                                            </td>
+                                    
+                                        </tr>
+                                    {%endfor%}
+                                    
                                 </tbody>
                             </table>
                         </div>
@@ -248,7 +207,7 @@
                 <div class="col-12 col-xxl-6 mb-4">
                     <div class="card border-0 shadow">
                         <div class="card-header border-bottom d-flex align-items-center justify-content-between">
-                            <h2 class="fs-5 fw-bold mb-0">Team members</h2>
+                            <h2 class="fs-5 fw-bold mb-0">Administração Unidade</h2>
                             <a href="#" class="btn btn-sm btn-primary">See all</a>
                         </div>
                         <div class="card-body">
@@ -267,7 +226,7 @@
                                         </h4>
                                         <div class="d-flex align-items-center">
                                             <div class="bg-success dot rounded-circle me-1"></div>
-                                            <small>Online</small>
+                                            <small>Gerente</small>
                                         </div>
                                     </div>
                                     <div class="col text-end">
@@ -292,7 +251,7 @@
                                             </h4>
                                             <div class="d-flex align-items-center">
                                                 <div class="bg-warning dot rounded-circle me-1"></div>
-                                                <small>In a meeting</small>
+                                                <small>Supervisor</small>
                                             </div>
                                         </div>
                                         <div class="col text-end">
@@ -317,7 +276,7 @@
                                             </h4>
                                             <div class="d-flex align-items-center">
                                                 <div class="bg-danger dot rounded-circle me-1"></div>
-                                                <small>Offline</small>
+                                                <small>RH</small>
                                             </div>
                                         </div>
                                         <div class="col text-end">
@@ -342,7 +301,7 @@
                                         </h4>
                                         <div class="d-flex align-items-center">
                                             <div class="bg-danger dot rounded-circle me-1"></div>
-                                            <small>Offline</small>
+                                            <small>DP Pessoal</small>
                                         </div>
                                         </div>
                                         <div class="col text-end">
@@ -360,12 +319,11 @@
                 <div class="col-12 col-xxl-6 mb-4">
                     <div class="card border-0 shadow">
                         <div class="card-header border-bottom d-flex align-items-center justify-content-between">
-                            <h2 class="fs-5 fw-bold mb-0">Progress track</h2>
+                            <!--<h2 class="fs-5 fw-bold mb-0">Progress track</h2>
                               <a href="#" class="btn btn-sm btn-primary">See tasks</a>
                           </div>
                         <div class="card-body">
-                            <!-- Project 1 -->
-                            <div class="row mb-4">
+                             <div class="row mb-4">
                                 <div class="col-auto">
                                     <svg class="icon icon-sm text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path></svg>
                                 </div>
@@ -381,7 +339,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- Project 2 -->
                             <div class="row align-items-center mb-4">
                                 <div class="col-auto">
                                     <svg class="icon icon-sm text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path></svg>
@@ -398,7 +355,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- Project 3 -->
                             <div class="row align-items-center mb-4">
                                 <div class="col-auto">
                                     <svg class="icon icon-sm text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path></svg>
@@ -415,7 +371,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- Project 4 -->
                             <div class="row align-items-center mb-3">
                                 <div class="col-auto">
                                     <svg class="icon icon-sm text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path></svg>
@@ -431,7 +386,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -442,7 +397,7 @@
                 <div class="card border-0 shadow">
                     <div class="card-header d-flex flex-row align-items-center flex-0 border-bottom">
                         <div class="d-block">
-                            <div class="h6 fw-normal text-gray mb-2">Total orders</div>
+                            <div class="h6 fw-normal text-gray mb-2">Avaliações esta Semana</div>
                             <h2 class="h3 fw-extrabold">452</h2>
                             <div class="small mt-2">                               
                                 <span class="fas fa-angle-up text-success"></span>                                   
@@ -452,11 +407,11 @@
                         <div class="d-block ms-auto">
                             <div class="d-flex align-items-center text-end mb-2">
                                 <span class="dot rounded-circle bg-gray-800 me-2"></span>
-                                <span class="fw-normal small">July</span>
+                                <span class="fw-normal small">Positivos</span>
                             </div>
                             <div class="d-flex align-items-center text-end">
                                 <span class="dot rounded-circle bg-secondary me-2"></span>
-                                <span class="fw-normal small">August</span>
+                                <span class="fw-normal small">Negativos</span>
                             </div>
                         </div>
                     </div>
@@ -467,17 +422,25 @@
             </div>
             <div class="col-12 px-0 mb-4">
                 <div class="card border-0 shadow">
+                    
                     <div class="card-body">
+                        <div class="d-block">
+                            <h2 class="h3 fw-extrabold">Top 3</h2>
+                            <hr>
+                            <div class="small mt-2">                               
+                                <span class="fas fa-angle-up text-success"></span>                                   
+                            </div>
+                        </div>
                         <div class="d-flex align-items-center justify-content-between border-bottom pb-3">
                             <div>
                                 <div class="h6 mb-0 d-flex align-items-center">
                                     <svg class="icon icon-xs text-gray-500 me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z" clip-rule="evenodd"></path></svg>
-                                    Global Rank
+                                    Fulano
                                 </div>
                             </div>
                             <div>
                                 <a href="#" class="d-flex align-items-center fw-bold">
-                                    #755
+                                    #20
                                     <svg class="icon icon-xs text-gray-500 ms-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 0l-2 2a1 1 0 101.414 1.414L8 10.414l1.293 1.293a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
                                 </a>
                             </div>
@@ -486,16 +449,14 @@
                             <div>
                                 <div class="h6 mb-0 d-flex align-items-center">
                                     <svg class="icon icon-xs text-gray-500 me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 6a3 3 0 013-3h10a1 1 0 01.8 1.6L14.25 8l2.55 3.4A1 1 0 0116 13H6a1 1 0 00-1 1v3a1 1 0 11-2 0V6z" clip-rule="evenodd"></path></svg>
-                                    Country Rank
+                                    Cicrano
                                 </div>
                                 <div class="small card-stats">
-                                    United States
-                                    <svg class="icon icon-xs text-success" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd"></path></svg>
                                 </div>
                             </div>
                             <div>
                                 <a href="#" class="d-flex align-items-center fw-bold">
-                                    #32
+                                    #17
                                     <svg class="icon icon-xs text-gray-500 ms-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 0l-2 2a1 1 0 101.414 1.414L8 10.414l1.293 1.293a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
                                 </a>
                             </div>
@@ -504,11 +465,9 @@
                             <div>
                                 <div class="h6 mb-0 d-flex align-items-center">
                                     <svg class="icon icon-xs text-gray-500 me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1H8a3 3 0 00-3 3v1.5a1.5 1.5 0 01-3 0V6z" clip-rule="evenodd"></path><path d="M6 12a2 2 0 012-2h8a2 2 0 012 2v2a2 2 0 01-2 2H2h2a2 2 0 002-2v-2z"></path></svg>
-                                    Category Rank
+                                    Beutrano
                                 </div>
                                 <div class="small card-stats">
-                                    Computers Electronics > Technology
-                                    <svg class="icon icon-xs text-success" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd"></path></svg>
                                 </div>
                             </div>
                             <div>
@@ -525,6 +484,7 @@
                 <div class="card border-0 shadow">
                     <div class="card-body">
                         <h2 class="fs-5 fw-bold mb-1">Acquisition</h2>
+                        
                         <p>Tells you where your visitors originated from, such as search engines, social networks or website referrals.</p>
                         <div class="d-block">
                             <div class="d-flex align-items-center me-5">
@@ -550,36 +510,10 @@
             </div>
         </div>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
-<script>
-
- $(document).ready(function(){
-    $('#save-button').click(function(){
-        var formData = $('#myform').serialize();
-        $.ajax({
-            type: 'POST',
-            url: '{% url "create_funci" %}',
-            data: formData,
-            success: function(response){
-                if (response && response.nome) {
-                    alert('Funcionário cadastrado com sucesso: ' + response.nome);
-                    $('#funcionarios').prepend('<p>' + response.nome + '</p>'); // Adiciona no topo da lista
-                    $('#myform')[0].reset(); // Limpa os campos do formulário
-                } else {
-                    alert('Nome do funcionário não disponível.');
-                }
-            },
-            error: function(xhr){
-                alert('Erro ao cadastrar funcionário.');
-            }
-        });
-    });
-});
-</script>
 
 {% endblock javascripts %}

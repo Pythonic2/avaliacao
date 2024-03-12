@@ -30,7 +30,12 @@ from django.http import JsonResponse
 from .forms import SignUpForm,NovoFunciForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-
+from django.http import JsonResponse
+from django.urls import reverse_lazy
+from django.views.generic import FormView
+from .forms import ContactForm  # Substitua pelo caminho real do seu formulário
+from .models import Funcionario, Avaliacao,Unidade,AdministradorUnidade
+from django.http import JsonResponse
 
 def logout_view(request):
     logout(request)
@@ -99,19 +104,31 @@ class DashBoardView(LoginRequiredMixin,TemplateView):
         autenticado = user.is_authenticated
         lista = Funcionario.objects.filter(usuario=user).order_by('-id')
         print(f"##############{user}#################")
-        return render(request,self.template_name,{'form':form,'autenticado':autenticado,'funcionarios':lista})
 
+        funcionario = Funcionario.objects.get(nome='igor')
+        # Contagem de avaliações "Bom" para atendimento
+        avaliacoes_bom_atendimento = Avaliacao.objects.filter(funcionario=funcionario, atendimento='Bom').count()
+        regular_atendimento = Avaliacao.objects.filter(funcionario=funcionario, atendimento='Regular ').count()
+        regular_higiene = Avaliacao.objects.filter(funcionario=funcionario, higiene='Regular ').count()
+        # Contagem de avaliações "Ruim" para atendimento
+        avaliacoes_ruim_atendimento = Avaliacao.objects.filter(funcionario=funcionario, atendimento='Ruim').count()
+        # Contagem de avaliações "Bom" para higiene
+        avaliacoes_bom_higiene = Avaliacao.objects.filter(funcionario=funcionario, higiene='Bom').count()
+        # Contagem de avaliações "Ruim" para higiene
+        avaliacoes_ruim_higiene = Avaliacao.objects.filter(funcionario=funcionario, higiene='Ruim').count()
+        total_avaliacoes = Avaliacao.objects.filter(funcionario=funcionario).count()
 
-    def post(self, request):
-        form = self.form_class(request.POST)
+        print("Total de avaliações para o funcionário:", total_avaliacoes)
+        print("Total de avaliações", total_avaliacoes)
+        print("Avaliações 'Bom' para atendimento:", avaliacoes_bom_atendimento)
+        print("Avaliações 'regular' para atendimento:", regular_atendimento)
+        print("Avaliações 'regular' para higiene:", regular_higiene)
+        print("Avaliações 'Ruim' para atendimento:", avaliacoes_ruim_atendimento)
+        print("Avaliações 'Bom' para higiene:", avaliacoes_bom_higiene)
+        print("Avaliações 'Ruim' para higiene:", avaliacoes_ruim_higiene)
+      
         
-        # create a form instance and populate it with data from the request:
-        if form.is_valid():
-            funcionario = form.save(commit=False)
-            funcionario.usuario = self.request.user
-            # funcionario = Funcionario.objects.all().order_by('-id')[0]
-            funcionario.save()
-            return HttpResponseRedirect(f"/dashboard/")
+        return render(request,self.template_name,{'form':form,'autenticado':autenticado,'funcionarios':lista,'tot':total_avaliacoes})
         
 
 class ListFuncionarios(LoginRequiredMixin,ListView):
@@ -137,23 +154,18 @@ class FuncionarioDetailView(LoginRequiredMixin,DetailView):
         funcionario_id = self.kwargs['pk']
         return Funcionario.objects.filter(id=funcionario_id,usuario=user)
 
-from django.http import JsonResponse
-from django.urls import reverse_lazy
-from django.views.generic import FormView
-from .forms import ContactForm  # Substitua pelo caminho real do seu formulário
-from .models import Funcionario  
-from django.http import JsonResponse
+
 
 class AuthorCreateView(LoginRequiredMixin, FormView):
-    template_name = 'funcionario_create.html'
-    form_class = ContactForm
+    form_class = NovoFunciForm
     success_url = reverse_lazy('create_funci')
-
+    template_name = 'home/settings.html'
     def form_valid(self, form):
         funcionario = form.save(commit=False)
         funcionario.usuario = self.request.user
         funcionario.save()
-        return JsonResponse({'nome': funcionario.nome})  # Retornar o nome do funcionário
+        print('certo')
+        return JsonResponse({'id':funcionario.id,'nome': funcionario.nome,'codigo':funcionario.codigo,'unidade':funcionario.unidade})  # Retornar o nome do funcionário
 
     def form_invalid(self, form):
         return JsonResponse({'error': 'Erro ao cadastrar funcionário.'}, status=400)
@@ -165,4 +177,6 @@ class AuthorCreateView(LoginRequiredMixin, FormView):
         lista = Funcionario.objects.filter(usuario=user).order_by('-id')
         context['autenticado'] = autenticado
         context['funcionarios'] = lista
+        context['msg'] = 'funcionou'
+        
         return context

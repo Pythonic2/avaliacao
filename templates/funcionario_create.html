@@ -8,48 +8,28 @@
 </head>
 <body>
     {% if autenticado %}
+
+    {% if form_submitted_successfully %}
+        <div class="alert alert-success" role="alert">
+            Sua mensagem de sucesso aqui!
+        </div>
+    {% endif %}
         <form method="post" id="myform">
             {% csrf_token %}
-            {{ form.as_p }}
-            <input type="button" id="save-button" value="Save">
+            {{ form.as_p}}
+            <input type="submit" id="save-button" value="Save">
             <a href="{% url 'logout' %}">Logout</a>
         </form>
 
-        <div id="funcionarios">
+        <!-- <div id="funcionarios">
             {% for f in funcionarios %}
                 <p>{{ f.nome }}</p>
             {% endfor %}
-        </div>
+        </div> -->
     {% else %}
         <span>é preciso fazer login para acessar essa área:</span>
         <a href="{% url 'login' %}">Entrar</a>
     {% endif %}
 
-    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
-    <script>
-        $(document).ready(function(){
-    $('#save-button').click(function(){
-        var formData = $('#myform').serialize();
-        $.ajax({
-            type: 'POST',
-            url: '{% url "create_funci" %}',
-            data: formData,
-            success: function(response){
-                if (response && response.nome) {
-                    alert('Funcionário cadastrado com sucesso: ' + response.nome);
-                    $('#funcionarios').prepend('<p>' + response.nome + '</p>'); // Adiciona no topo da lista
-                    $('#myform')[0].reset(); // Limpa os campos do formulário
-                } else {
-                    alert('Nome do funcionário não disponível.');
-                }
-            },
-            error: function(xhr){
-                alert('Erro ao cadastrar funcionário.');
-            }
-        });
-    });
-});
-
-    </script>
 </body>
 </html>
