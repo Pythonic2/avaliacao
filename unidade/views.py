@@ -5,14 +5,6 @@ from .models import Unidade
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-class UnidadeFormulario(LoginRequiredMixin,TemplateView):
-    template_name = 'includes/unidade.html'
-    form_class = NovaUnidadeForm
-
-    def get(self, request):
-        form = self.form_class()
-        context = {'form_2':form}
-        return render(request,self.template_name,context)
 
 
 def htmx_criar_unidade(request):
@@ -28,3 +20,7 @@ def htmx_criar_unidade(request):
     else:
         context['erro']=form.errors
         return render(request, 'includes/unidades.html', context)
+
+def htmx_listar_unidade(request):
+    unidades = Unidade.objects.all().order_by('-id')
+    return render(request, 'includes/unidades.html',{'unudades':unidades})

@@ -48,7 +48,7 @@
                         <div class="small mt-2"> 
                             <span class="fw-normal me-2">Até hoje</span>                              
                             <span class="fas fa-angle-up text-success"></span>                                   
-                            <span class="text-success fw-bold">{{tot}}</span>
+                            <span class="text-success fw-bold">{{total_avlc}}</span>
                         </div>
                     </div>
                     <!-- <div class="d-flex ms-auto">
@@ -515,5 +515,38 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
+<script>
+    // Access data from Django context
+    const total_avaliacoes = JSON.parse('{{ total_avlc }}');
+    if(d.querySelector('.ct-chart-sales-value')) {
+        //Chart 5
+          new Chartist.Line('.ct-chart-sales-value', {
+            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            series: [
+                [0, total_avaliacoes]
+            ]
+          }, {
+            low: 0,
+            showArea: true,
+            fullWidth: true,
+            plugins: [
+              Chartist.plugins.tooltip()
+            ],
+            axisX: {
+                // On the x-axis start means top and end means bottom
+                position: 'end',
+                showGrid: true
+            },
+            axisY: {
+                // On the y-axis start means left and end means right
+                showGrid: false,
+                showLabel: false,
+                labelInterpolationFnc: function(value) {
+                    return '$' + (value / 1) + 'k';
+                }
+            }
+        });
+    }
 
+</script>
 {% endblock javascripts %}

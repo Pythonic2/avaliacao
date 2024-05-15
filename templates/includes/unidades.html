@@ -1,10 +1,3 @@
-{%if erro%}
-<div class="alert alert-danger" role="alert">
-    {{erro}}
-</div>
-
-{%elif success%}
-<div class="alert alert-success" role="alert">
-   {{success}}
-  </div>
-{%endif%}
+{% for unidade in unidades %}
+    <option value="{{ unidade.id }}" style="font-weight: bold;">{{ unidade.nome }}</option>
+{% endfor %}

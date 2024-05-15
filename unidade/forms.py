@@ -6,7 +6,7 @@ class NovaUnidadeForm(forms.ModelForm):
     nome = forms.CharField(
         widget=forms.TextInput(
             attrs={
-                "placeholder": "nome",
+                "placeholder": "Unidade",
                 "class": "form-control"
             }
         ))
@@ -15,7 +15,7 @@ class NovaUnidadeForm(forms.ModelForm):
     end = forms.CharField(
         widget=forms.TextInput(
             attrs={
-                "placeholder": "Matrícula",
+                "placeholder": "endreço",
                 "class": "form-control"
             }
         ))

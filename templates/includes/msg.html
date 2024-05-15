@@ -1,46 +1,78 @@
-{% comment %} {%if erro%}
-<div class="alert alert-danger" role="alert">
-    {{erro}}
+<div class="accordion accordion-flush" id="accordionFlushExample">
+    {% for funci in funcionarios %}
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="flush-heading{{ funci.id }}">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{ funci.id }}" aria-expanded="false" aria-controls="flush-collapse{{ funci.id }}">
+                Nome: {{ funci.nome }}, Matrícula: {{funci.matricula}}, Unidade: {{funci.unidade}}
+            </button>
+        </h2>
+        <div id="flush-collapse{{ funci.id }}" class="accordion-collapse collapse" aria-labelledby="flush-heading{{ funci.id }}" data-bs-parent="#accordionFlushExample">
+            <div class="accordion-body">
+               
+                <p><strong>Qrcode:</strong> <img src="{{ funci.qrcode.url }}" alt="" id="qrcode-{{ funci.id }}" style="width: 10%;">
+                <button onclick="printImage({{funci.id}})" class="btn btn-secondary">Imprimir</button>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
 </div>
+<script>
+    function printAll() {
+        // Selecionar a tabela
+        const tabela = document.getElementById('accordionFlushExample').outerHTML;
 
-{%elif success%}
-<div class="alert alert-success" role="alert">
-   {{success}}
-  </div>
-{%endif%} {% endcomment %}
+        // Abrir uma nova janela ou aba
+        const newWindow = window.open('', '', 'width=800,height=600');
+        
+        // Escrever o conteúdo HTML na nova janela
+        newWindow.document.write('<html><head><title>Imprimir Tabela</title>');
+        newWindow.document.write('<style>table { width: 100%; border-collapse: collapse; } th, td { border: 1px solid #ddd; padding: 8px; }</style>');
+        newWindow.document.write('</head><body>');
+        newWindow.document.write(tabela);
+        newWindow.document.write('</body></html>');
 
-<div class="table-responsive">
-  <table class="table align-items-center table-flush" x>
-      <thead class="thead-light">
-      <tr>
-          <th class="border-bottom" scope="col">Id</th>
-          <th class="border-bottom" scope="col">Nome</th>
-          <th class="border-bottom" scope="col">Unidade</th>
-          <th class="border-bottom" scope="col">matricula</th>
+        // Esperar a nova janela carregar completamente antes de acionar a impressão
+        newWindow.document.close();
+        newWindow.focus();
+        newWindow.print();
+        newWindow.close();
+    }
 
-      </tr>
-      </thead>
-      <tbody>
-          {% for funci in funcionarios%}
-              <tr id="funcionarios">
-                  <td class="text-gray-900" scope="row">
-                      {{funci.id}}
-                  </td>
-                  <td class="fw-bolder text-gray-500">
-                      {{funci.nome}}
-                  </td>
-                  <td class="fw-bolder text-gray-500">
-                      {{funci.unidade}}
-                  </td>
-                  <td class="fw-bolder text-gray-500">
-                      {{funci.matricula}}
-                  </td>
-                  
-                  
-              </tr>
-          {%endfor%}
-         
-          
-      </tbody>
-  </table>
-</div> 
+    function printImage(id) {
+  // Get a reference to the accordion item element for the given employee ID
+  const accordionItem = document.getElementById(`flush-heading${id}`);
+
+  // Check if the accordion item exists
+  if (!accordionItem) {
+    console.error(`Couldn't find accordion item with ID flush-heading${id}`);
+    return;
+  }
+
+  // Extract content from within the accordion item
+  const title = accordionItem.textContent.trim(); // Get title text (name, matrícula, unidade)
+  const qrcodeElement = accordionItem.nextElementSibling.querySelector('#qrcode-' + id); // Find QR code image within the accordion body
+
+  if (!qrcodeElement) {
+    console.error(`Couldn't find QR code image with ID qrcode-${id}`);
+    return;
+  }
+
+  const imgSrc = qrcodeElement.src; // Extract QR code image source URL
+
+  // Open a new window or tab
+  const newWindow = window.open('', '', 'width=600,height=400');
+
+  // Write content to the new window
+  newWindow.document.write('<html><head><title>Imprimir Qrcode</title></head><body>');
+  newWindow.document.write('<h1>' + title + '</h1>'); // Use the extracted title for clarity
+  newWindow.document.write('<img src="' + imgSrc + '" style="width:50%;height:auto;">');
+  newWindow.document.write('</body></html>');
+
+  // Wait for the window to load and then print
+  newWindow.document.close();
+  newWindow.focus();
+  newWindow.print();
+  newWindow.close();
+}
+
+</script>

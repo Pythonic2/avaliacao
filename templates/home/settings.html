@@ -52,16 +52,33 @@
     </div>
     <div class="row">
         <div class="col-12 col-xl-8">
-            {% include 'includes/unidade.html'%}
-            <div id="unidades">
-                {% include 'includes/unidades.html' %}
-            </div>
             <div class="card card-body border-0 shadow mb-4">
-                <h2 class="h5 mb-4">Cadastrar Funcionário</h2>
+                <h2 class="h5 mb-4">1° Cadastrar Unidade</h2>
                    
                 <form action="" method="post" id="myform">
                     {%csrf_token%}
-                    {{form.as_p}}
+                    {{form_unidade.as_p}}
+                    <input type="button" value="Cadastrar" id="save-button" class="btn btn-block btn-gray-800 mb-3" hx-post="{% url 'criar-unidade'%}" hx-trigger="click" hx-target="#unidades">
+                </form>
+
+            </div>
+            
+            <div class="card card-body border-0 shadow mb-4">
+                <h2 class="h5 mb-4">2° Cadastrar Funcionário</h2>
+                   
+                <form action="" method="post" id="myform">
+                    {%csrf_token%}
+                    <label for="id_nome">{{form.nome.label}}
+                    </label>
+                    {{form.nome}}
+                    <label for="id_nome">{{form.matricula.label}}
+                    </label>                    {{form.matricula}}
+                    <label for="id_nome">{{form.unidade.label}}
+                    </label> 
+                    
+                    <select name="unidade" id="unidades" class="form-control">
+                        {%include 'includes/unidades.html'%}
+                    </select>
                     <input type="button" value="Cadastrar" id="save-button" class="btn btn-block btn-gray-800 mb-3" hx-post="{% url 'salvar_funci'%}" hx-trigger="click" hx-target="#conteudo">
 
                 </form>
@@ -70,7 +87,8 @@
             
             
             <div class="card card-body border-0 shadow mb-4 mb-xl-0">
-                <h2 class="h5 mb-4">Alerts & Notifications</h2>
+                <h2 class="h5 mb-4">Imprima os QRcodes</h2>
+                
                 <div id="conteudo">
                     {% include 'includes/msg.html' %}
                 </div>

@@ -39,7 +39,7 @@ from .models import Funcionario
 from django.http import JsonResponse
 from avaliacao.models import Avaliacao
 from unidade.models import Unidade
-
+from unidade.forms import NovaUnidadeForm
 
 class DashBoardView(LoginRequiredMixin,TemplateView):
     template_name = 'home/dashboard.html'
@@ -51,10 +51,8 @@ class DashBoardView(LoginRequiredMixin,TemplateView):
         funcionario_existe = Funcionario.DoesNotExist
         
         lista = Funcionario.objects.filter(usuario=user).order_by('-id')
-        print(lista)
         for funcionario in lista:
             funcionario.total_avaliacoes = Avaliacao.objects.filter(funcionario=funcionario).count()
-        print(f"##############{user}#################")
         try:
             
             avaliacoes_bom_atendimento = Avaliacao.objects.filter(funcionario=funcionario, atendimento='Bom').count()
@@ -66,21 +64,6 @@ class DashBoardView(LoginRequiredMixin,TemplateView):
             avaliacoes_bom_higiene = Avaliacao.objects.filter(funcionario=funcionario, higiene='Bom').count()
             # Contagem de avaliações "Ruim" para higiene
             avaliacoes_ruim_higiene = Avaliacao.objects.filter(funcionario=funcionario, higiene='Ruim').count()
-            total_avaliacoes = Avaliacao.objects.filter(funcionario=funcionario).count()
-
-        
-            data_atual = timezone.now()
-
-            # Data de 7 dias atrás
-            data_sete_dias_atras = data_atual - timedelta(days=7)
-
-            # Filtrar avaliações dos últimos 7 dias para o funcionário
-            avaliacoes_ultimos_sete_dias = Avaliacao.objects.filter(funcionario=funcionario, data__gte=data_sete_dias_atras, data__lte=data_atual)
-
-            # Contagem de avaliações dos últimos 7 dias
-            total_avaliacoes_ultimos_sete_dias = avaliacoes_ultimos_sete_dias.count()
-            print("Total de avaliações nos últimos 7 dias para o funcionário:", total_avaliacoes_ultimos_sete_dias)
-
         except Exception as e:
             lista= []
             total_avaliacoes = 0
@@ -89,10 +72,10 @@ class DashBoardView(LoginRequiredMixin,TemplateView):
             'form':form,
             'autenticado':autenticado,
             'funcionarios':lista,
-            'tot':total_avaliacoes
+            'total_avlc':total_avaliacoes
         }
         return render(request,self.template_name,context)
-        
+            
 
 class ListFuncionarios(LoginRequiredMixin,ListView):
     model = Funcionario
@@ -150,9 +133,11 @@ class AuthorCreateView(LoginRequiredMixin, FormView):
         context = super().get_context_data(**kwargs)
         user = self.request.user
         autenticado = user.is_authenticated
+        form_unidade = NovaUnidadeForm
         lista = Funcionario.objects.filter(usuario=user).order_by('-id')
         context['autenticado'] = autenticado
         context['funcionarios'] = lista
         context['msg'] = 'funcionou'
-        
+        context['form_unidade'] = form_unidade
+        context['unidades'] = Unidade.objects.all().order_by('-id')
         return context
