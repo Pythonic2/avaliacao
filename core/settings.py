@@ -44,8 +44,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'funcionario',
     'qr_code',
+    'authentication',
+    'unidade',
+    'funcionario',
+    'avaliacao',
+    'administrador_unidade',
+    'home',
 ]
 
 MIDDLEWARE = [
@@ -60,7 +65,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'core.urls'
-AUTH_USER_MODEL = 'funcionario.CustomUser'
+AUTH_USER_MODEL = 'authentication.CustomUser'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

@@ -52,57 +52,28 @@
     </div>
     <div class="row">
         <div class="col-12 col-xl-8">
-            
+            {% include 'includes/unidade.html'%}
+            <div id="unidades">
+                {% include 'includes/unidades.html' %}
+            </div>
             <div class="card card-body border-0 shadow mb-4">
-                <h2 class="h5 mb-4">General information</h2>
+                <h2 class="h5 mb-4">Cadastrar Funcionário</h2>
                    
                 <form action="" method="post" id="myform">
                     {%csrf_token%}
                     {{form.as_p}}
+                    <input type="button" value="Cadastrar" id="save-button" class="btn btn-block btn-gray-800 mb-3" hx-post="{% url 'salvar_funci'%}" hx-trigger="click" hx-target="#conteudo">
+
                 </form>
 
-                <input type="button" value="Cadastrar" id="save-button" class="btn btn-block btn-gray-800 mb-3">
             </div>
+            
+            
             <div class="card card-body border-0 shadow mb-4 mb-xl-0">
                 <h2 class="h5 mb-4">Alerts & Notifications</h2>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item d-flex align-items-center justify-content-between px-0 border-bottom">
-                        <div>
-                            <h3 class="h6 mb-1">Company News</h3>
-                            <p class="small pe-4">Get Rocket news, announcements, and product updates</p>
-                        </div>
-                        <div>
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="user-notification-1">
-                                <label class="form-check-label" for="user-notification-1"></label>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="list-group-item d-flex align-items-center justify-content-between px-0 border-bottom">
-                        <div>
-                            <h3 class="h6 mb-1">Account Activity</h3>
-                            <p class="small pe-4">Get important notifications about you or activity you've missed</p>
-                        </div>
-                        <div>
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="user-notification-2" checked>
-                                <label class="form-check-label" for="user-notification-2"></label>
-                            </div>                                            
-                        </div>
-                    </li>
-                    <li class="list-group-item d-flex align-items-center justify-content-between px-0">
-                        <div>
-                            <h3 class="h6 mb-1">Meetups Near You</h3>
-                            <p class="small pe-4">Get an email when a Dribbble Meetup is posted close to my location</p>
-                        </div>
-                        <div>
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="user-notification-3" checked>
-                                <label class="form-check-label" for="user-notification-3"></label>
-                            </div> 
-                        </div>
-                    </li>
-                </ul>
+                <div id="conteudo">
+                    {% include 'includes/msg.html' %}
+                </div>
             </div>
         </div>
         <div class="col-12 col-xl-4">
@@ -181,34 +152,3 @@
 
 {% endblock content %}
 
-<!-- Specific Page JS goes HERE  -->
-{% block javascripts %}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-<script>
-
-$(document).ready(function(){
-    $('#save-button').click(function(){
-        var formData = $('#myform').serialize();
-        $.ajax({
-            type: 'POST',
-            url: '{% url "create_funci" %}',
-            data: formData,
-            success: function(response){
-                if (response && response.nome) {
-                    alert('Funcionário cadastrado com sucesso: ' + response.nome);
-                    $('#funcionarios').prepend('<li>' + response.codigo + '</li>');
-                  
-                    $('#myform')[0].reset(); // Limpa os campos do formulário
-                } else {
-                    msg = ('Nome do funcionário não disponível.');
-                }
-            },
-            error: function(xhr){
-                alert('Erro ao cadastrar funcionário.');
-            }
-        });
-    });
-});
-</script>
-{% endblock javascripts %}

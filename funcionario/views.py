@@ -27,62 +27,18 @@ from django.contrib.auth.decorators import login_required
 from django.utils.translation import gettext_lazy
 from django.contrib.auth.forms import AuthenticationForm
 from django.http import JsonResponse
-from .forms import SignUpForm,NovoFunciForm
+from .forms import NovoFunciForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils import timezone
 from datetime import timedelta
 from django.http import JsonResponse
 from django.urls import reverse_lazy
 from django.views.generic import FormView
-from .forms import ContactForm  # Substitua pelo caminho real do seu formulário
-from .models import Funcionario, Avaliacao,Unidade,AdministradorUnidade
+from .forms import ContactForm
+from .models import Funcionario
 from django.http import JsonResponse
-
-def logout_view(request):
-    logout(request)
-    return redirect("login")
-
-
-class RegisterUser(TemplateView):
-    def get(self, request):
-        form = SignUpForm()
-        return render(request, "accounts/register.html", {"form": form})
-
-    def post(self, request):
-        form = SignUpForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get("username")
-            raw_password = form.cleaned_data.get("password1")
-            user = authenticate(username=username, password=raw_password)
-            if user is not None:
-                # Autentica o usuário e redireciona para o painel de controle
-                return redirect("dashboard")
-            else:
-                # Se o usuário não for autenticado, pode ser uma questão de integridade do banco de dados
-                return redirect("login")
-        else:
-            # Se o formulário não for válido, retorna o formulário com uma mensagem de erro
-            return render(request, "accounts/register.html", {"form": form, "error_message": "Form is not valid"})
-    
-
-class LoginUsuario(LoginView):
-    template_name = 'accounts/login.html'
-
-    def form_invalid(self, form):
-        username = form.cleaned_data.get('username')
-        user_exists = User.objects.filter(username=username).exists()
-
-        error_messages = {
-            'invalid_login': gettext_lazy('Verifique o usuário e senha e tente novamente.'),
-            'inactive': gettext_lazy('Usuário inativo.'),
-        }
-        
-        AuthenticationForm.error_messages = error_messages
-
-        return super().form_invalid(form)
-
-
+from avaliacao.models import Avaliacao
+from unidade.models import Unidade
 
 
 class DashBoardView(LoginRequiredMixin,TemplateView):
@@ -101,7 +57,6 @@ class DashBoardView(LoginRequiredMixin,TemplateView):
         print(f"##############{user}#################")
         try:
             
-            # Contagem de avaliações "Bom" para atendimento
             avaliacoes_bom_atendimento = Avaliacao.objects.filter(funcionario=funcionario, atendimento='Bom').count()
             regular_atendimento = Avaliacao.objects.filter(funcionario=funcionario, atendimento='Regular ').count()
             regular_higiene = Avaliacao.objects.filter(funcionario=funcionario, higiene='Regular ').count()
@@ -136,7 +91,6 @@ class DashBoardView(LoginRequiredMixin,TemplateView):
             'funcionarios':lista,
             'tot':total_avaliacoes
         }
-        print(context['funcionarios'])
         return render(request,self.template_name,context)
         
 
@@ -164,7 +118,20 @@ class FuncionarioDetailView(LoginRequiredMixin,DetailView):
         return Funcionario.objects.filter(id=funcionario_id,usuario=user)
 
 
-
+def htmx_criar_funcionario(request):
+    form = NovoFunciForm(request.POST)
+    context = {}
+    if form.is_valid():
+        funcionario = form.save(commit=False)
+        funcionario.usuario = request.user
+        funcionario.save()
+        context['success'] = f'usuario: "{funcionario.nome}" cadastrado com sucesso!'
+        context['funcionarios'] = Funcionario.objects.all().order_by('-id')
+        return render(request, 'includes/msg.html', context)
+    else:
+        context['erro']=form.errors
+        return render(request, 'includes/msg.html', context)
+    
 class AuthorCreateView(LoginRequiredMixin, FormView):
     form_class = NovoFunciForm
     success_url = reverse_lazy('create_funci')

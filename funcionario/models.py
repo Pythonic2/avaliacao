@@ -7,22 +7,17 @@ from django.conf import settings
 from django.db import models
 from dataclasses import dataclass
 from time import strftime
-
-
-
-class Unidade(models.Model):
-    nome = models.CharField(max_length=100)
-    end = models.CharField(max_length=100)
-    def __str__(self) -> str:
-        return f'{self.nome} - {self.end}'
-
+from unidade.models import Unidade
+from authentication.models import CustomUser
+# Create your models here.
 class Funcionario(models.Model):
     nome = models.CharField(max_length=150)
     qrcode = models.ImageField(blank=True, upload_to='qrcode')
     site = models.CharField(max_length=150, default='www.google.com.br/')  
     codigo = models.CharField(max_length=300, blank=True)
+    matricula = models.CharField(max_length=15,blank=True, default=133)
     unidade = models.ForeignKey(Unidade, on_delete=models.CASCADE)  
-    usuario = models.ForeignKey('CustomUser', on_delete=models.CASCADE)
+    usuario = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     total_avaliacoes = models.IntegerField(default=0)
     
     def __str__(self):
@@ -57,28 +52,3 @@ class Funcionario(models.Model):
 
     def get_absolute_url(self):
         return reverse("author-detail", kwargs={"pk": self.pk})
-    
-
-class Avaliacao(models.Model):
-    FUNCIONARIO_CHOICES = (
-        ('Bom', 'Bom'),
-        ('Regular', 'Regular'),
-        ('Ruim', 'Ruim'),
-    )
-
-    funcionario = models.ForeignKey('Funcionario', on_delete=models.CASCADE)
-    atendimento = models.CharField(max_length=10, choices=FUNCIONARIO_CHOICES)
-    higiene = models.CharField(max_length=10, choices=FUNCIONARIO_CHOICES)
-    comentario = models.TextField(blank=True)
-    data = models.DateField(default=strftime("%d/%m/%Y"), blank=True)
-    def __str__(self):
-        return f"Avaliação de {self.funcionario.nome}"
-    
-
-
-
-
-class AdministradorUnidade(models.Model):
-    nome = models.CharField(max_length=100)
-    cargo = models.CharField(max_length=100)
-    unidade = models.ForeignKey(Unidade, on_delete=models.CASCADE)

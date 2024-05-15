@@ -21,11 +21,6 @@
             <a href="{% url 'logout' %}">Logout</a>
         </form>
 
-        <!-- <div id="funcionarios">
-            {% for f in funcionarios %}
-                <p>{{ f.nome }}</p>
-            {% endfor %}
-        </div> -->
     {% else %}
         <span>é preciso fazer login para acessar essa área:</span>
         <a href="{% url 'login' %}">Entrar</a>

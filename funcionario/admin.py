@@ -1,7 +1,5 @@
 from django.contrib import admin
-from .models import Funcionario, Avaliacao, AdministradorUnidade,Unidade
 
+# Register your models here.
+from .models import Funcionario
 admin.site.register(Funcionario)
-admin.site.register(Avaliacao)
-admin.site.register(AdministradorUnidade)
-admin.site.register(Unidade)
