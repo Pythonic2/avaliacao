@@ -15,7 +15,7 @@ class Funcionario(models.Model):
     qrcode = models.ImageField(blank=True, upload_to='qrcode')
     site = models.CharField(max_length=150, default='www.google.com.br/')  
     codigo = models.CharField(max_length=300, blank=True)
-    matricula = models.CharField(max_length=15,blank=True, default=133)
+    matricula = models.CharField(max_length=15,blank=True, unique=True)
     unidade = models.ForeignKey(Unidade, on_delete=models.CASCADE)  
     usuario = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     total_avaliacoes = models.IntegerField(default=0)

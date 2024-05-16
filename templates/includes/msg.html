@@ -1,3 +1,6 @@
+<div class="container">
+    <button onclick="printAll()"> Imprimir Todos</button>
+</div>
 <div class="accordion accordion-flush" id="accordionFlushExample">
     {% for funci in funcionarios %}
     <div class="accordion-item">
@@ -9,7 +12,7 @@
         <div id="flush-collapse{{ funci.id }}" class="accordion-collapse collapse" aria-labelledby="flush-heading{{ funci.id }}" data-bs-parent="#accordionFlushExample">
             <div class="accordion-body">
                
-                <p><strong>Qrcode:</strong> <img src="{{ funci.qrcode.url }}" alt="" id="qrcode-{{ funci.id }}" style="width: 10%;">
+                <p><strong>Qrcode:</strong> <img src="{{ funci.qrcode.url }}" alt="" id="qrcode-{{ funci.id }}" style="width: 10%;" class="qr">
                 <button onclick="printImage({{funci.id}})" class="btn btn-secondary">Imprimir</button>
             </div>
         </div>
@@ -18,25 +21,29 @@
 </div>
 <script>
     function printAll() {
-        // Selecionar a tabela
-        const tabela = document.getElementById('accordionFlushExample').outerHTML;
+            // Selecionar a tabela
+            const tabela = document.getElementById('accordionFlushExample').outerHTML;
 
-        // Abrir uma nova janela ou aba
-        const newWindow = window.open('', '', 'width=800,height=600');
-        
-        // Escrever o conteúdo HTML na nova janela
-        newWindow.document.write('<html><head><title>Imprimir Tabela</title>');
-        newWindow.document.write('<style>table { width: 100%; border-collapse: collapse; } th, td { border: 1px solid #ddd; padding: 8px; }</style>');
-        newWindow.document.write('</head><body>');
-        newWindow.document.write(tabela);
-        newWindow.document.write('</body></html>');
+            // Abrir uma nova janela ou aba
+            const newWindow = window.open('', '', 'width=800,height=600');
+            
+            // Escrever o conteúdo HTML na nova janela
+            newWindow.document.write('<html><head><title>Imprimir Tabela</title>');
+            // Adicionar estilos
+            newWindow.document.write('<style>');
+            newWindow.document.write('img, .qr { width: 27% !important; }'); // Estilo para imagens e elementos com classe 'qr'
+            newWindow.document.write('</style></head><body>');
+            newWindow.document.write(tabela);
+            newWindow.document.write('</body></html>');
 
-        // Esperar a nova janela carregar completamente antes de acionar a impressão
-        newWindow.document.close();
-        newWindow.focus();
-        newWindow.print();
-        newWindow.close();
-    }
+            // Esperar a nova janela carregar completamente antes de acionar a impressão
+            newWindow.document.close();
+            newWindow.focus();
+            newWindow.onload = function() {
+                newWindow.print();
+                newWindow.close();
+            };
+        }
 
     function printImage(id) {
   // Get a reference to the accordion item element for the given employee ID
@@ -65,7 +72,7 @@
   // Write content to the new window
   newWindow.document.write('<html><head><title>Imprimir Qrcode</title></head><body>');
   newWindow.document.write('<h1>' + title + '</h1>'); // Use the extracted title for clarity
-  newWindow.document.write('<img src="' + imgSrc + '" style="width:50%;height:auto;">');
+  newWindow.document.write('<img src="' + imgSrc + '" style="width:28%;height:auto;">');
   newWindow.document.write('</body></html>');
 
   // Wait for the window to load and then print

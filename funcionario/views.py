@@ -64,6 +64,7 @@ class DashBoardView(LoginRequiredMixin,TemplateView):
             avaliacoes_bom_higiene = Avaliacao.objects.filter(funcionario=funcionario, higiene='Bom').count()
             # Contagem de avaliações "Ruim" para higiene
             avaliacoes_ruim_higiene = Avaliacao.objects.filter(funcionario=funcionario, higiene='Ruim').count()
+            total_avaliacoes = Avaliacao.objects.filter(usuario=user).count()
         except Exception as e:
             lista= []
             total_avaliacoes = 0
