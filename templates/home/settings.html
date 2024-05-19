@@ -58,7 +58,7 @@
                 <form action="" method="post" id="myform">
                     {%csrf_token%}
                     {{form_administrador.as_p}}
-                    <input type="button" value="Cadastrar" id="save-button" class="btn btn-block btn-gray-800 mb-3" hx-post="{% url 'criar-administrador'%}" hx-trigger="click" hx-target="#administrador" hx-on:click="alert('Verifique seus Estabelecimentos no formulário de Funcionário logo abaixo!')">
+                    <input type="button" value="Cadastrar" id="save-button" class="btn btn-block btn-gray-800 mb-3" hx-post="{% url 'criar-administrador'%}" hx-trigger="click" hx-target="#administrador" hx-on:click="alert('Verifique o administrador cadastrado no formulario abaixo, no campo Administrador/Supervisor')">
                 </form>
 
             </div>
