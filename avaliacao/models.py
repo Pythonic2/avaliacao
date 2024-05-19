@@ -34,4 +34,4 @@ class Avaliacao(models.Model):
     data = models.DateField(default=strftime("%Y-%m-%d"), blank=True)
     
     def __str__(self):
-        return f"Avaliação de {self.nome or 'Anônimo'} em {self.data_visita}"
+        return f"Avaliação de {self.nome or 'Anônimo'}"
