@@ -9,7 +9,7 @@ def sei_la(request, matricula):
         form = AvaliacaoForm(request.POST)
         if form.is_valid():
             avaliacao = form.save(commit=False)
-            avaliacao.usuario = request.user
+            avaliacao.usuario = funcionario.usuario
             avaliacao.funcionario = funcionario
             avaliacao.save()
             return redirect('dashboard')  # Redirecione para uma página de sucesso ou similar
