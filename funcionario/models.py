@@ -8,46 +8,50 @@ from django.db import models
 from unidade.models import Unidade
 from authentication.models import CustomUser
 
-
 class Funcionario(models.Model):
     nome = models.CharField(max_length=150)
     qrcode = models.ImageField(blank=True, upload_to='qrcode')
-    site = models.CharField(max_length=150, default='https://primeportalbr.com/avaliacao/')  
+    site = models.CharField(max_length=150, default='https://primeportalbr.com/avaliacao/')
     codigo = models.CharField(max_length=300, blank=True)
-    matricula = models.CharField(max_length=15,blank=True, unique=True)
-    unidade = models.ForeignKey(Unidade, on_delete=models.CASCADE)  
+    matricula = models.CharField(max_length=15, blank=True, unique=True)
+    unidade = models.ForeignKey(Unidade, on_delete=models.CASCADE)
     usuario = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     total_avaliacoes = models.IntegerField(default=0)
     
     def __str__(self):
-        return f"{self.nome}"  
+        return f"{self.nome}"
 
     def save(self, *args, **kwargs):
-        # Se o objeto ainda não tem um ID (ou seja, ainda não foi salvo no banco de dados), salve-o primeiro
         if not self.pk:
             super().save(*args, **kwargs)
 
-        # Atualiza o campo codigo com a concatenação de site e id antes de salvar
-        self.codigo = f"{self.site}{self.matricula}"  
+        self.codigo = f"{self.site}{self.matricula}"
         
-        qr_image = qrcode.make(self.codigo)  # Gera o QR code
-        qr_offset = Image.new('RGB', (310, 310), 'white')  # Cria uma nova imagem para o QR code
-        qr_offset.paste(qr_image)  # Insere o QR code na imagem
+        qr = qrcode.QRCode(
+            version=1,
+            error_correction=qrcode.constants.ERROR_CORRECT_L,
+            box_size=10,
+            border=4,
+        )
+        qr.add_data(self.codigo)
+        qr.make(fit=True)
         
-        # Nome do arquivo utilizando o ID do objeto
+        qr_image = qr.make_image(fill='black', back_color='white')
+        qr_image = qr_image.convert('RGB')
+        
+        size = (310, 310)
+        qr_offset = Image.new('RGB', size, 'white')
+        
+        # Centralizar o QR code na imagem
+        pos = ((size[0] - qr_image.size[0]) // 2, (size[1] - qr_image.size[1]) // 2)
+        qr_offset.paste(qr_image, pos)
+        
         file_name = f'{self.nome}-{self.matricula}-qr.png'
-        
-        # Cria um buffer de memória
         stream = BytesIO()
-        
-        # Salva a imagem do QR code no buffer
         qr_offset.save(stream, 'PNG')
-        
-        # Salva o buffer no campo de imagem
         self.qrcode.save(file_name, File(stream), save=False)
         
-        super().save(*args, **kwargs)  # Salva as alterações no banco de dados
-
+        super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse("author-detail", kwargs={"pk": self.matricula})
