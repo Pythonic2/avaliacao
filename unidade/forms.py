@@ -1,12 +1,12 @@
 from django import forms
 from unidade.models import Unidade
-
+from administrador_unidade.models import AdministradorUnidade
 
 class NovaUnidadeForm(forms.ModelForm):
     nome = forms.CharField(
         widget=forms.TextInput(
             attrs={
-                "placeholder": "Unidade",
+                "placeholder": "Nome Estabelecimento",
                 "class": "form-control"
             }
         ))
@@ -15,13 +15,17 @@ class NovaUnidadeForm(forms.ModelForm):
     end = forms.CharField(
         widget=forms.TextInput(
             attrs={
-                "placeholder": "endreço",
+                "placeholder": "Endreço",
                 "class": "form-control"
             }
         ))
     
-   
+    administrador = forms.ModelChoiceField(
+                queryset= AdministradorUnidade.objects.all(),
+                empty_label="Select Administrador",
+                widget=forms.Select(attrs={'class': 'form-control'})
+            )
 
     class Meta:
         model = Unidade
-        fields = ('nome', 'end')
+        fields = ('nome', 'end','administrador')

@@ -2,7 +2,7 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
-from funcionario.views import DashBoardView
+from .views import DashBoardView
 
 urlpatterns = [
     path('dashboard/', DashBoardView.as_view(), name='dashboard'), 

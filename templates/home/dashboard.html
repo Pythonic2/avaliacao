@@ -48,7 +48,7 @@
                         <div class="small mt-2"> 
                             <span class="fw-normal me-2">Até hoje</span>                              
                             <span class="fas fa-angle-up text-success"></span>                                   
-                            <span class="text-success fw-bold">{{total_avlc}}</span>
+                            <span class="text-success fw-bold">{{total_av}}</span>
                         </div>
                     </div>
                     <!-- <div class="d-flex ms-auto">
@@ -207,11 +207,12 @@
                 <div class="col-12 col-xxl-6 mb-4">
                     <div class="card border-0 shadow">
                         <div class="card-header border-bottom d-flex align-items-center justify-content-between">
-                            <h2 class="fs-5 fw-bold mb-0">Administração Unidade</h2>
+                            <h2 class="fs-5 fw-bold mb-0">Estabelecimentos</h2>
                             <a href="#" class="btn btn-sm btn-primary">See all</a>
                         </div>
                         <div class="card-body">
                             <ul class="list-group list-group-flush list my--3">
+                                {% for unidade in unidades%}
                                 <li class="list-group-item px-0">
                                     <div class="row align-items-center">
                                     <div class="col-auto">
@@ -222,11 +223,11 @@
                                     </div>
                                     <div class="col-auto ms--2">
                                         <h4 class="h6 mb-0">
-                                            <a href="#">Chris Wood</a>
+                                            <a href="#">{{unidade.nome}}</a>
                                         </h4>
                                         <div class="d-flex align-items-center">
                                             <div class="bg-success dot rounded-circle me-1"></div>
-                                            <small>Gerente</small>
+                                            <small>{{unidade.administrador.cargo}} - {{unidade.administrador}}</small>
                                         </div>
                                     </div>
                                     <div class="col text-end">
@@ -237,81 +238,8 @@
                                     </div>
                                     </div>
                                 </li>
-                                <li class="list-group-item px-0">
-                                    <div class="row align-items-center">
-                                        <div class="col-auto">
-                                            <!-- Avatar -->
-                                            <a href="#" class="avatar">
-                                                <img class="rounded" alt="Image placeholder" src="/static/assets/img/team/profile-picture-2.jpg">
-                                            </a>
-                                        </div>
-                                        <div class="col-auto ms--2">
-                                            <h4 class="h6 mb-0">
-                                                <a href="#">Jose Leos</a>
-                                            </h4>
-                                            <div class="d-flex align-items-center">
-                                                <div class="bg-warning dot rounded-circle me-1"></div>
-                                                <small>Supervisor</small>
-                                            </div>
-                                        </div>
-                                        <div class="col text-end">
-                                            <a href="#" class="btn btn-sm btn-secondary d-inline-flex align-items-center">
-                                                <svg class="icon icon-xxs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd"></path></svg>
-                                                Message
-                                            </a>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item px-0">
-                                    <div class="row align-items-center">
-                                        <div class="col-auto">
-                                            <!-- Avatar -->
-                                            <a href="#" class="avatar">
-                                                <img class="rounded" alt="Image placeholder" src="/static/assets/img/team/profile-picture-3.jpg">
-                                            </a>
-                                        </div>
-                                        <div class="col-auto ms--2">
-                                            <h4 class="h6 mb-0">
-                                                <a href="#">Bonnie Green</a>
-                                            </h4>
-                                            <div class="d-flex align-items-center">
-                                                <div class="bg-danger dot rounded-circle me-1"></div>
-                                                <small>RH</small>
-                                            </div>
-                                        </div>
-                                        <div class="col text-end">
-                                            <a href="#" class="btn btn-sm btn-secondary d-inline-flex align-items-center">
-                                                <svg class="icon icon-xxs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd"></path></svg>
-                                                Message
-                                            </a>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item px-0">
-                                    <div class="row align-items-center">
-                                        <div class="col-auto">
-                                            <!-- Avatar -->
-                                            <a href="#" class="avatar">
-                                                <img class="rounded" alt="Image placeholder" src="/static/assets/img/team/profile-picture-4.jpg">
-                                            </a>
-                                        </div>
-                                        <div class="col-auto ms--2">
-                                        <h4 class="h6 mb-0">
-                                                <a href="#">Neil Sims</a>
-                                        </h4>
-                                        <div class="d-flex align-items-center">
-                                            <div class="bg-danger dot rounded-circle me-1"></div>
-                                            <small>DP Pessoal</small>
-                                        </div>
-                                        </div>
-                                        <div class="col text-end">
-                                            <a href="#" class="btn btn-sm btn-secondary d-inline-flex align-items-center">
-                                                <svg class="icon icon-xxs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd"></path></svg>
-                                                Message
-                                            </a>
-                                        </div>
-                                    </div>
-                                </li>
+                                {%endfor%}
+                                
                             </ul>
                         </div>
                     </div>
@@ -517,28 +445,34 @@
 {% block javascripts %}
 <script>
     // Access data from Django context
-    const total_avaliacoes = JSON.parse('{{ total_avlc }}');
-    if(d.querySelector('.ct-chart-sales-value')) {
-        //Chart 5
-          new Chartist.Line('.ct-chart-sales-value', {
-            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-            series: [
-                [0, total_avaliacoes]
-            ]
-          }, {
+    const total_avaliacoes = JSON.parse('{{ total_avlc|escapejs }}');
+
+    // Extract months and evaluations
+    const labels = [];
+    const series = [];
+
+    for (const [month, avaliacao] of Object.entries(total_avaliacoes)) {
+        labels.push(month);
+        series.push(avaliacao);
+    }
+
+    if (document.querySelector('.ct-chart-sales-value')) {
+        // Chart 5
+        new Chartist.Line('.ct-chart-sales-value', {
+            labels: labels,
+            series: [series]
+        }, {
             low: 0,
             showArea: true,
             fullWidth: true,
             plugins: [
-              Chartist.plugins.tooltip()
+                Chartist.plugins.tooltip()
             ],
             axisX: {
-                // On the x-axis start means top and end means bottom
                 position: 'end',
                 showGrid: true
             },
             axisY: {
-                // On the y-axis start means left and end means right
                 showGrid: false,
                 showLabel: false,
                 labelInterpolationFnc: function(value) {
@@ -547,6 +481,5 @@
             }
         });
     }
-
 </script>
 {% endblock javascripts %}

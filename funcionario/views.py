@@ -40,50 +40,24 @@ from django.http import JsonResponse
 from avaliacao.models import Avaliacao
 from unidade.models import Unidade
 from unidade.forms import NovaUnidadeForm
+from datetime import datetime
+from django.db.models import Count
+from django.utils.dateformat import DateFormat
+import json
+from django.db.models import Count
+from django.db.models.functions import TruncMonth
+from django.utils.dateformat import DateFormat
+from datetime import datetime
+from administrador_unidade.forms import NovoAdministradorForm
+from administrador_unidade.models import AdministradorUnidade
 
-class DashBoardView(LoginRequiredMixin,TemplateView):
-    template_name = 'home/dashboard.html'
-    form_class = NovoFunciForm
-    def get(self, request):
-        form = self.form_class()
-        user = self.request.user
-        autenticado = user.is_authenticated
-        funcionario_existe = Funcionario.DoesNotExist
-        
-        lista = Funcionario.objects.filter(usuario=user).order_by('-id')
-        for funcionario in lista:
-            funcionario.total_avaliacoes = Avaliacao.objects.filter(funcionario=funcionario).count()
-        try:
-            
-            avaliacoes_bom_atendimento = Avaliacao.objects.filter(funcionario=funcionario, atendimento='Bom').count()
-            regular_atendimento = Avaliacao.objects.filter(funcionario=funcionario, atendimento='Regular ').count()
-            regular_higiene = Avaliacao.objects.filter(funcionario=funcionario, higiene='Regular ').count()
-            # Contagem de avaliações "Ruim" para atendimento
-            avaliacoes_ruim_atendimento = Avaliacao.objects.filter(funcionario=funcionario, atendimento='Ruim').count()
-            # Contagem de avaliações "Bom" para higiene
-            avaliacoes_bom_higiene = Avaliacao.objects.filter(funcionario=funcionario, higiene='Bom').count()
-            # Contagem de avaliações "Ruim" para higiene
-            avaliacoes_ruim_higiene = Avaliacao.objects.filter(funcionario=funcionario, higiene='Ruim').count()
-            total_avaliacoes = Avaliacao.objects.filter(usuario=user).count()
-        except Exception as e:
-            lista= []
-            total_avaliacoes = 0
-            
-        context = {
-            'form':form,
-            'autenticado':autenticado,
-            'funcionarios':lista,
-            'total_avlc':total_avaliacoes
-        }
-        return render(request,self.template_name,context)
-            
+
 
 class ListFuncionarios(LoginRequiredMixin,ListView):
     model = Funcionario
-
     template_name = 'home/tables-bootstrap-tables.html'
+
     def get(self, request):
-        user = self.request.user
         user = self.request.user
         autenticado = user.is_authenticated
         if autenticado:
@@ -91,13 +65,13 @@ class ListFuncionarios(LoginRequiredMixin,ListView):
         else:
             lista = ''
         return render(request, self.template_name,{"page_obj":lista,"autenticado":autenticado})
-    
+
+
 class FuncionarioDetailView(LoginRequiredMixin,DetailView):
     model = Funcionario
     template_name = 'funcionario_detail.html'
     def get_queryset(self):
         user = self.request.user
-
         funcionario_id = self.kwargs['pk']
         return Funcionario.objects.filter(id=funcionario_id,usuario=user)
 
@@ -109,13 +83,15 @@ def htmx_criar_funcionario(request):
         funcionario = form.save(commit=False)
         funcionario.usuario = request.user
         funcionario.save()
+        user = request.user
         context['success'] = f'usuario: "{funcionario.nome}" cadastrado com sucesso!'
-        context['funcionarios'] = Funcionario.objects.all().order_by('-id')
+        context['funcionarios'] = Funcionario.objects.filter(usuario=user).order_by('-id')
         return render(request, 'includes/msg.html', context)
     else:
         context['erro']=form.errors
         return render(request, 'includes/msg.html', context)
-    
+
+
 class AuthorCreateView(LoginRequiredMixin, FormView):
     form_class = NovoFunciForm
     success_url = reverse_lazy('create_funci')
@@ -135,10 +111,13 @@ class AuthorCreateView(LoginRequiredMixin, FormView):
         user = self.request.user
         autenticado = user.is_authenticated
         form_unidade = NovaUnidadeForm
+        form_administrador = NovoAdministradorForm
         lista = Funcionario.objects.filter(usuario=user).order_by('-id')
         context['autenticado'] = autenticado
         context['funcionarios'] = lista
         context['msg'] = 'funcionou'
         context['form_unidade'] = form_unidade
+        context['form_administrador'] = form_administrador
         context['unidades'] = Unidade.objects.all().order_by('-id')
+        context['administradores'] = AdministradorUnidade.objects.all().order_by('-id')
         return context

@@ -1,18 +1,14 @@
 from django.shortcuts import render
 from django.http.response import HttpResponse as HttpResponse
-from django.shortcuts import render
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.contrib.auth.views import LoginView
 from django.contrib import messages
 from django.contrib.auth import authenticate
-from django.contrib.auth import logout
-from django.shortcuts import redirect
 from django.utils.translation import gettext_lazy
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import SignUpForm
 from .models import CustomUser
-from django.contrib.auth import get_user_model
 from django.views.generic import TemplateView
 
 User = CustomUser

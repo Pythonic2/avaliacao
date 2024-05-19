@@ -5,15 +5,14 @@ from PIL import Image
 from django.urls import reverse
 from django.conf import settings
 from django.db import models
-from dataclasses import dataclass
-from time import strftime
 from unidade.models import Unidade
 from authentication.models import CustomUser
-# Create your models here.
+
+
 class Funcionario(models.Model):
     nome = models.CharField(max_length=150)
     qrcode = models.ImageField(blank=True, upload_to='qrcode')
-    site = models.CharField(max_length=150, default='www.google.com.br/')  
+    site = models.CharField(max_length=150, default='https://primeportalbr.com/')  
     codigo = models.CharField(max_length=300, blank=True)
     matricula = models.CharField(max_length=15,blank=True, unique=True)
     unidade = models.ForeignKey(Unidade, on_delete=models.CASCADE)  
@@ -29,14 +28,14 @@ class Funcionario(models.Model):
             super().save(*args, **kwargs)
 
         # Atualiza o campo codigo com a concatenação de site e id antes de salvar
-        self.codigo = f"{self.site}{self.pk}"  
+        self.codigo = f"{self.site}{self.matricula}"  
         
         qr_image = qrcode.make(self.codigo)  # Gera o QR code
         qr_offset = Image.new('RGB', (310, 310), 'white')  # Cria uma nova imagem para o QR code
         qr_offset.paste(qr_image)  # Insere o QR code na imagem
         
         # Nome do arquivo utilizando o ID do objeto
-        file_name = f'{self.nome}-{self.pk}-qr.png'
+        file_name = f'{self.nome}-{self.matricula}-qr.png'
         
         # Cria um buffer de memória
         stream = BytesIO()
@@ -51,4 +50,4 @@ class Funcionario(models.Model):
 
 
     def get_absolute_url(self):
-        return reverse("author-detail", kwargs={"pk": self.pk})
+        return reverse("author-detail", kwargs={"pk": self.matricula})
