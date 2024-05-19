@@ -12,7 +12,7 @@ from authentication.models import CustomUser
 class Funcionario(models.Model):
     nome = models.CharField(max_length=150)
     qrcode = models.ImageField(blank=True, upload_to='qrcode')
-    site = models.CharField(max_length=150, default='https://primeportalbr.com/')  
+    site = models.CharField(max_length=150, default='https://primeportalbr.com/avaliacao/')  
     codigo = models.CharField(max_length=300, blank=True)
     matricula = models.CharField(max_length=15,blank=True, unique=True)
     unidade = models.ForeignKey(Unidade, on_delete=models.CASCADE)  
