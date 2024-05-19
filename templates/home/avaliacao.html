@@ -1,0 +1,14 @@
+{% extends "layouts/base_ava.html" %}
+
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <h1>Formulário de Avaliação do Cliente</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Enviar Avaliação</button>
+    </form>
+
+{%endblock%}

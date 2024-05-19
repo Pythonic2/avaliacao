@@ -2,7 +2,7 @@ from django.shortcuts import render
 from administrador_unidade.forms import NovoAdministradorForm
 from administrador_unidade.models import AdministradorUnidade
 from django.shortcuts import render
-
+    
 
 def htmx_criar_admin(request):
     form = NovoAdministradorForm(request.POST)

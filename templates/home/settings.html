@@ -76,7 +76,7 @@
                         Administrador/Supervisor
                     </label> 
                     
-                    <select name="administrador" id="administrador" class="form-control" >
+                    <select name="administrador" id="administrador" class="form-select mb-0" >
                         {% include 'includes/administradores.html' %}
                     </select>
 
@@ -98,7 +98,7 @@
                     <label for="id_unidade">Estabelecimento
                     </label> 
                     
-                    <select name="unidade" id="unidades" class="form-control">
+                    <select name="unidade" id="unidades" class="form-select mb-0">
                         {% include 'includes/unidades.html'%}
                     </select>
                     <input type="button" value="Cadastrar" id="save-button" class="btn btn-block btn-gray-800 mb-3" hx-post="{% url 'salvar_funci'%}" hx-trigger="click" hx-target="#conteudo">

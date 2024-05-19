@@ -20,7 +20,7 @@ class Funcionario(models.Model):
     total_avaliacoes = models.IntegerField(default=0)
     
     def __str__(self):
-        return f"{self.nome} - {self.site}"  
+        return f"{self.nome}"  
 
     def save(self, *args, **kwargs):
         # Se o objeto ainda não tem um ID (ou seja, ainda não foi salvo no banco de dados), salve-o primeiro

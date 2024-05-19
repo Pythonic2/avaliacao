@@ -7,7 +7,6 @@ class Unidade(models.Model):
     nome = models.CharField(max_length=100)
     end = models.CharField(max_length=100)
     usuario = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    administrador = models.ForeignKey(AdministradorUnidade, on_delete=models.CASCADE)
 
     
     def __str__(self) -> str:
