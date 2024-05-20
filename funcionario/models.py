@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.conf import settings
 from django.db import models
 from unidade.models import Unidade
-from authentication.models import CustomUser
+#from authentication.models import CustomUser
 
 class Funcionario(models.Model):
     nome = models.CharField(max_length=150)
@@ -15,7 +15,7 @@ class Funcionario(models.Model):
     codigo = models.CharField(max_length=300, blank=True)
     matricula = models.CharField(max_length=15, blank=True, unique=True)
     unidade = models.ForeignKey(Unidade, on_delete=models.CASCADE)
-    usuario = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    #usuario = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     total_avaliacoes = models.IntegerField(default=0)
     
     def __str__(self):
