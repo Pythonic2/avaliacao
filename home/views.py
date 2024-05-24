@@ -75,7 +75,9 @@ class DashBoardView(LoginRequiredMixin, TemplateView):
             'autenticado': autenticado,
             'total_avlc': json.dumps(total_avlc),
             'total_av':total_avaliacoes,
-            'unidades':Unidade.objects.filter(usuario=user).order_by('-id')
+            'unidades':Unidade.objects.filter(usuario=user).order_by('-id'),
+            'avaliacoes': Avaliacao.objects.filter(usuario=user)
+
         }
         return render(request, self.template_name, context)
             

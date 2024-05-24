@@ -62,19 +62,71 @@ class ListFuncionarios(LoginRequiredMixin,ListView):
         autenticado = user.is_authenticated
         if autenticado:
             lista = Funcionario.objects.filter(usuario=user)
+            unidades = Unidade.objects.filter(usuario=user)
         else:
             lista = ''
-        return render(request, self.template_name,{"page_obj":lista,"autenticado":autenticado})
+        return render(request, self.template_name,{"page_obj":lista,"autenticado":autenticado,'tete':'d-none','unidades':unidades})
 
 
-class FuncionarioDetailView(LoginRequiredMixin,DetailView):
-    model = Funcionario
-    template_name = 'funcionario_detail.html'
-    def get_queryset(self):
-        user = self.request.user
-        funcionario_id = self.kwargs['pk']
-        return Funcionario.objects.filter(id=funcionario_id,usuario=user)
+def htmx_editar_funcionario(request, id):
+    funcionario = Funcionario.objects.get(id=id)
+    context = {'funci': funcionario, 'tete': '','form':NovoFunciForm}
+    return render(request, 'includes/editar_funcionario.html', context)
 
+def htmx_update_funcionario(request,id):
+    funcionario = Funcionario.objects.get(id=id)
+    novo_nome = request.POST.get('nome')
+    nova_matriula = request.POST.get('matricula')
+    nova_unidade = request.POST.get('unidade')
+    nova_unidade = Unidade.objects.get(id=nova_unidade)
+    funcionario.nome = novo_nome
+    funcionario.matricula = nova_matriula
+    funcionario.unidade = nova_unidade
+    funcionario.usuario = funcionario.usuario
+    funcionario.save()
+    return redirect('list_funci')
+
+
+def htmx_apagar_funcionario(request, id):
+    funcionario = Funcionario.objects.get(id=id)
+    funcionario.delete()
+    context = {'funci': funcionario, 'tete': ''}
+    return redirect('list_funci')
+
+
+
+def htmx_editar_estabelecimento(request, id):
+    funcionario = Unidade.objects.get(id=id)
+    context = {'estabelecimento': funcionario, 'tete': '','form':NovaUnidadeForm}
+    return render(request, 'includes/editar_estabelecimento.html', context)
+
+
+def htmx_update_estabelecimento(request,id):
+    unidade = Unidade.objects.get(id=id)
+
+    novo_nome = request.POST.get('nome')
+
+    novo_end = request.POST.get('end')
+
+    novo_admin = request.POST.get('administrador')
+
+
+    novo_admin = AdministradorUnidade.objects.get(id=novo_admin)
+    print(f' ------------ {novo_admin}')
+    unidade.nome = novo_nome
+    unidade.end = novo_end
+    unidade.usuario = unidade.usuario
+    unidade.administrador = novo_admin
+
+    unidade.save()
+    return redirect('list_funci')
+
+
+def htmx_apagar_estabeleciento(request, id):
+    unidade = Unidade.objects.get(id=id)
+    unidade.delete()
+    context = {'unidade': unidade}
+    return redirect('list_funci')
 
 def htmx_criar_funcionario(request):
     form = NovoFunciForm(request.POST)
