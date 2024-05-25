@@ -10,6 +10,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from .forms import SignUpForm
 from .models import CustomUser
 from django.views.generic import TemplateView
+from datetime import timedelta
+from django.utils import timezone
 
 User = CustomUser
 # Create your views here.
@@ -57,4 +59,19 @@ class LoginUsuario(LoginView):
         AuthenticationForm.error_messages = error_messages
 
         return super().form_invalid(form)
+
+def pagamento_aprovado(request):
+    import json
+    parametros = request.GET.dict()  # Converte QueryDict para um dicionário comum
+    print(parametros)
+    if parametros['status'] == 'approved':
+        user = request.user
+        usuario = CustomUser.objects.get(username=user)
+        usuario.status_pagamento = True
+        usuario.data_cobrar = timezone.now() + timedelta(days=1)
+        usuario.save()
+        return render(request,'accounts/retorno_pagamento.html',{'infos':'aprovado'})
+    else:
+        return render(request,'accounts/retorno_pagamento.html',{'infos':'recusado'})
+
 
