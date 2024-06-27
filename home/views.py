@@ -49,7 +49,8 @@ from django.db.models.functions import TruncMonth
 from django.utils.dateformat import DateFormat
 from datetime import datetime
 import os
-
+from dotenv import load_dotenv
+load_dotenv()
 def pagamento():
     import mercadopago
     # Adicione as credenciais
