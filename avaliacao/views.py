@@ -19,7 +19,7 @@ def sei_la(request, matricula):
     return render(request, 'home/avaliacao.html', {'form': form})
 
 def obrigado(request):
-    return HttpResponse("<h1>Obrigado por nos avaliar</h1>")
+    return render(request,'home/obrigado_avaliar.html')
 
 def listar_avaliacoes(request):
     satisfacao = request.GET.get('satisfacao')

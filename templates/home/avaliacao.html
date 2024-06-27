@@ -4,11 +4,12 @@
 
 {% block content %}
 
-    <h1>Formulário de Avaliação do Cliente</h1>
+    <h1>Formulário de Avaliação</h1>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Enviar Avaliação</button>
     </form>
+    
 
 {%endblock%}
