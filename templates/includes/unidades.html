@@ -1,3 +1,6 @@
-{% for unidade in unidades %}
+
+{% for unidade in unidades%}
+    {%if unidade.usuario == user%}
     <option value="{{ unidade.id }}" style="font-weight: bold;">{{ unidade.nome }}</option>
+    {%endif%}
 {% endfor %}

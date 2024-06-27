@@ -40,11 +40,9 @@
               <table class="table table-centered table-nowrap mb-0 rounded">
                   <thead class="thead-light">
                       <tr>
-                          <th class="border-0 rounded-start">id</th>
-                          <th class="border-0">Nome</th>
-                          <th class="border-0">Link-Avaliação</th>
-                          <th class="border-0">Estabelecimento Alocado</th>
-                          <th class="border-0">Total Avaliações</th>
+                          <th class="border-0 rounded-start">Nome</th>
+                          <th class="border-0">Matrícula</th>
+                          <th class="border-0">EStabelecimento</th>
                           <th class="border-0">Ação 1</th>
                           <th class="border-0 rounded-end">Ação 2</th>
                       </tr>
@@ -63,17 +61,23 @@
                             </td>
                             
                             <td>
-                                {{form.unidade}}
+
+                                <select name="unidade" id="unidades" class="form-select mb-0">
+                                    {% include 'includes/unidades.html'%}
+                                </select>
                             </td>
                             
-                            <td class="text-warning">
                             
+                        <td class="text-success">
+                            <div class="d-flex align-items-center">
+                                <span class="fw-bold"><button type="link">Salvar</button></span>
+                            </div>
                         </td>
-                            <td class="text-success">
-                                <div class="d-flex align-items-center">
-                                    <button type='submit' >AtualizarFuncionário</a>
-                                </div>
-                            </td>
+                          <td class="text-dark">
+                              <div class="d-flex align-items-center">
+                                  <span class="fw-bold"><a href="{%url 'list_funci'%}">Calcelar</a></span>
+                              </div>
+                          </td>
                         </tr>
                     </form>
                     

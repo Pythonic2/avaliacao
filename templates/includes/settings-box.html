@@ -4,13 +4,13 @@
             <button type="button" class="btn-close theme-settings-close" aria-label="Close" data-bs-toggle="collapse"
                 href="#theme-settings" role="button" aria-expanded="false" aria-controls="theme-settings"></button>
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <p class="m-0 mb-1 me-4 fs-7">Sua Assinatura vence:<span role="img" aria-label="gratitude"> 2024/06/22</span></p>
+                <p class="m-0 mb-1 me-4 fs-7">Sua Assinatura vence:<span role="img" aria-label="gratitude"> {{user.data_cobrar |date:'d/m/Y'}}</span></p>
                 
             </div>
-            <a href="https://themesberg.com/product/admin-dashboard/volt-bootstrap-5-dashboard" target="_blank"
+            {% comment %} <a href="https://themesberg.com/product/admin-dashboard/volt-bootstrap-5-dashboard" target="_blank"
                 class="btn btn-secondary d-inline-flex align-items-center justify-content-center mb-3 w-100">
                 Pagar 
-            </a>
+            </a> {% endcomment %}
             
         </div>
     </div>

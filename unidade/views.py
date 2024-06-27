@@ -12,7 +12,7 @@ def htmx_criar_unidade(request):
     context = {}
     if form.is_valid():
         unidade = form.save(commit=False)
-        unidade.usuario= request.user
+        unidade.usuario = request.user
         unidade.save()
         user = request.user
         context['success'] = f'Unidade: "{unidade.nome}" cadastrada com sucesso!'
@@ -25,4 +25,4 @@ def htmx_criar_unidade(request):
 def htmx_listar_unidade(request):
     user = request.user
     unidades = Unidade.objects.filter(usuario=user).order_by('-id')
-    return render(request, 'includes/unidades.html',{'unudades':unidades})
+    return render(request, 'includes/unidades.html',{'unidades':unidades})

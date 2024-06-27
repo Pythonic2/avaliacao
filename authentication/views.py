@@ -68,7 +68,8 @@ def pagamento_aprovado(request):
         user = request.user
         usuario = CustomUser.objects.get(username=user)
         usuario.status_pagamento = True
-        usuario.data_cobrar = timezone.now() + timedelta(days=1)
+        usuario.data_pagamento = timezone.now()
+        usuario.data_cobrar = timezone.now() + timedelta(days=30)
         usuario.save()
         return render(request,'accounts/retorno_pagamento.html',{'infos':'aprovado'})
     else:

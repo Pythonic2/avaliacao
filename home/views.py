@@ -94,6 +94,10 @@ class DashBoardView(LoginRequiredMixin, TemplateView):
             .order_by('month')
         )
         total_avaliacoes = Avaliacao.objects.filter(usuario=user).count()
+        
+        if user.pagamento_atrasado:
+            user.status_pagamento = False
+            print(f"O pagamento do usuário {user.username} está atrasado!")
         # Transformar os dados em um formato adequado para o gráfico
         total_avlc = {DateFormat(avaliacao['month']).format('M'): avaliacao['total'] for avaliacao in avaliacoes_por_mes}
 

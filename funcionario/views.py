@@ -70,7 +70,9 @@ class ListFuncionarios(LoginRequiredMixin,ListView):
 
 def htmx_editar_funcionario(request, id):
     funcionario = Funcionario.objects.get(id=id)
-    context = {'funci': funcionario, 'tete': '','form':NovoFunciForm}
+    unidades = Unidade.objects.filter(usuario=request.user)
+    print(unidades)
+    context = {'funci': funcionario, 'tete': '','form':NovoFunciForm,'unidades':unidades}
     return render(request, 'includes/editar_funcionario.html', context)
 
 def htmx_update_funcionario(request,id):

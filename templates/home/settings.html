@@ -50,22 +50,24 @@
             </div>
         </div>
     </div>
+    {%if user.status_pagamento%}
     <div class="row">
         <div class="col-12 col-xl-8">
             <div class="card card-body border-0 shadow mb-4">
                 <h2 class="h5 mb-4">1° Cadastrar administrador/Supervisor do Estabelecimento</h2>
-                   
+                <p class="text-danger">Esta pessoa é responsável por supervisionar/administrar o Estabelecimento.</p>
                 <form action="" method="post" id="myform">
                     {%csrf_token%}
                     {{form_administrador.as_p}}
-                    <input type="button" value="Cadastrar" id="save-button" class="btn btn-block btn-gray-800 mb-3" hx-post="{% url 'criar-administrador'%}" hx-trigger="click" hx-target="#administrador" hx-on:click="alert('Verifique o administrador cadastrado no formulario abaixo, no campo Administrador/Supervisor')">
+                    <input type="button" value="Cadastrar" id="save-button" class="btn btn-block btn-gray-800 mb-3" hx-post="{% url 'criar-administrador'%}" hx-trigger="click" hx-target="#administrador" hx-on:click="alert('Verifique o administrador cadastrado no formulario abaixo, no campo Administrador/Supervisor. Todos os itens salvos, serão vistos no campo do formulário seguinte.')">
                 </form>
 
             </div>
 
             <div class="card card-body border-0 shadow mb-4">
                 <h2 class="h5 mb-4">2° Cadastrar Estabelecimento</h2>
-                   
+                <p class="text-danger">Cadastre quantos estabelecimentos você desejar.</p>
+
                 <form action="" method="post" id="myform">
                     {%csrf_token%}
                     <label for="id_nome">{{form_unidade.nome.label}}</label>
@@ -80,14 +82,14 @@
                         {% include 'includes/administradores.html' %}
                     </select>
 
-                    <input type="button" value="Cadastrar" id="save-button" class="btn btn-block btn-gray-800 mb-3" hx-post="{% url 'criar-unidade'%}" hx-trigger="click" hx-target="#unidades" hx-on:click="alert('Verifique seus Estabelecimentos no formulário de Funcionário logo abaixo!')">
+                    <input type="button" value="Cadastrar" id="save-button" class="btn btn-block btn-gray-800 mb-3" hx-post="{% url 'criar-unidade'%}" hx-trigger="click" hx-target="#unidades">
                 </form>
 
             </div>
             
             <div class="card card-body border-0 shadow mb-4">
                 <h2 class="h5 mb-4">3° Cadastrar Funcionário</h2>
-                   
+                   <p class="text-danger">Se você nao tiver funcionários, e/ou não quiser avaliação para seus funcionário, cadastre o administrador do estabelecimento ou até você mesmo.</p>
                 <form action="" method="post" id="myform">
                     {%csrf_token%}
                     <label for="id_nome">{{form.nome.label}}
@@ -110,7 +112,8 @@
             
             <div class="card card-body border-0 shadow mb-4 mb-xl-0">
                 <h2 class="h5 mb-4">Imprima os QRcodes</h2>
-                
+                <p class="text-danger">Abra os itens da lista para ter acesso ao QR-code ou imprima todos.</p>
+
                 <div id="conteudo">
                     {% include 'includes/msg.html' %}
                 </div>
@@ -122,7 +125,7 @@
                     <div class="card shadow border-0 text-center p-0">
                         <div class="profile-cover rounded-top" data-background="/static/assets/img/profile-cover.jpg"></div>
                         <div class="card-body pb-5">
-                            <img src="/static/assets/img/team/profile-picture-1.jpg" class="avatar-xl rounded-circle mx-auto mt-n7 mb-4" alt="Neil Portrait">
+                            <img src="/static/assets/img/profile-cover.jpg"class="avatar-xl rounded-circle mx-auto mt-n7 mb-4" alt="Neil Portrait">
                             <h4 class="h3">
                                 {{uer.nome}}
                             </h4>
@@ -144,6 +147,18 @@
             </div>
         </div>
     </div>
-
+{%else%}
+<div class="py-4" id="teste">
+    <div class="">
+        <a href="{{pagar}}" class="text-black"> Não identificamos seu pagamento ainda:
+        <button class="btn btn-gray-800 d-inline-flex align-items-center me-2 " >
+          Resolver
+        </button>
+        </a>
+        
+        </div>
+    </div>
+</div>
+{%endif%}
 {% endblock content %}
 
