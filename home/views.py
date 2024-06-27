@@ -96,7 +96,10 @@ class DashBoardView(LoginRequiredMixin, TemplateView):
             .order_by('month')
         )
         total_avaliacoes = Avaliacao.objects.filter(usuario=user).count()
-        
+        try:
+            init_point = pagamento()
+        except Exception:
+            init_point = None
         if user.pagamento_atrasado:
             user.status_pagamento = False
             print(f"O pagamento do usuário {user.username} está atrasado!")
@@ -109,7 +112,7 @@ class DashBoardView(LoginRequiredMixin, TemplateView):
             'total_avlc': json.dumps(total_avlc),
             'total_av':total_avaliacoes,
             'unidades':Unidade.objects.filter(usuario=user).order_by('-id'),
-            'pagar':pagamento(),
+            'pagar':init_point,
             'user':request.user,
 
         }
