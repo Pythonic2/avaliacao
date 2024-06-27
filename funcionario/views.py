@@ -98,8 +98,9 @@ def htmx_apagar_funcionario(request, id):
 
 
 def htmx_editar_estabelecimento(request, id):
-    funcionario = Unidade.objects.get(id=id)
-    context = {'estabelecimento': funcionario, 'tete': '','form':NovaUnidadeForm}
+    unidade = Unidade.objects.get(id=id)
+    administradores = AdministradorUnidade.objects.filter(usuario=request.user)
+    context = {'estabelecimento': unidade, 'tete': '','administradores':administradores}
     return render(request, 'includes/editar_estabelecimento.html', context)
 
 
@@ -172,6 +173,6 @@ class AuthorCreateView(LoginRequiredMixin, FormView):
         context['msg'] = 'funcionou'
         context['form_unidade'] = form_unidade
         context['form_administrador'] = form_administrador
-        context['unidades'] = Unidade.objects.all().order_by('-id')
-        context['administradores'] = AdministradorUnidade.objects.all().order_by('-id')
+        context['unidades'] = Unidade.objects.filter(usuario=user).order_by('-id')
+        context['administradores'] = AdministradorUnidade.objects.filter(usuario=user).order_by('-id')
         return context

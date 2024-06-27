@@ -1,0 +1,17 @@
+{%if total%}
+    <strong>Total</strong> - {{total}}
+{%else%}
+<strong></strong> 
+
+{%endif%}
+{% for avaliacao in avaliacoes %}
+    <li>
+        <strong>{{ avaliacao }}</strong><br>
+        Atendimento: {{ avaliacao.get_atendimento_display }}<br>
+        Produto/Serviço: {{ avaliacao.get_produto_servico_display }}<br>
+        Comentários: {{ avaliacao.comentarios }}<br>
+        Funcionário: {{ avaliacao.funcionario.nome }}<br>
+        Data: {{ avaliacao.data|date:'d/m/Y' }}<br>
+    </li>
+   
+{% endfor %}

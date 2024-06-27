@@ -40,13 +40,13 @@
               <table class="table table-centered table-nowrap mb-0 rounded">
                   <thead class="thead-light">
                       <tr>
-                          <th class="border-0 rounded-start">id</th>
-                          <th class="border-0">Nome</th>
-                          <th class="border-0">Link-Avaliação</th>
-                          <th class="border-0">Estabelecimento Alocado</th>
-                          <th class="border-0">Total Avaliações</th>
-                          <th class="border-0">Ação 1</th>
-                          <th class="border-0 rounded-end">Ação 2</th>
+                          <th class="border-0 rounded-start">Nome do Estab</th>
+                          <th class="border-0">End</th>
+                          <th class="border-0">Administrador</th>
+                          <th class="border-0"></th>
+                          <th class="border-0"></th>
+                          <th class="border-0"></th>
+                         
                       </tr>
                   </thead>
                   <tbody>
@@ -63,7 +63,9 @@
                             </td>
                             
                             <td>
-                                {{form.administrador}}
+                                <select name="administrador" id="administrador" class="form-select mb-0" >
+                                    {% include 'includes/administradores.html' %}
+                                </select>
                             </td>
                             
                             <td class="text-warning">
@@ -71,7 +73,18 @@
                         </td>
                             <td class="text-success">
                                 <div class="d-flex align-items-center">
-                                    <button type='submit' >AtualizarFuncionário</a>
+                                    <input type="submit" value="Salvar" id="save-button" class="btn btn-block btn-gray-800 mb-3">
+                                </div>
+                            </td>
+                            <td class="text-success">
+                                <div class="">
+                                    <a href="{% url 'list_funci'%}" class="text-white">
+                                    <button class="btn btn-gray-800 d-inline-flex align-items-center me-2 " type="button">
+                                      Cancelar
+                                    </button>
+                                    </a>
+                                    
+                                    </div>
                                 </div>
                             </td>
                         </tr>

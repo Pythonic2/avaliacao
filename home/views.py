@@ -100,19 +100,19 @@ class DashBoardView(LoginRequiredMixin, TemplateView):
             print(f"O pagamento do usuário {user.username} está atrasado!")
         # Transformar os dados em um formato adequado para o gráfico
         total_avlc = {DateFormat(avaliacao['month']).format('M'): avaliacao['total'] for avaliacao in avaliacoes_por_mes}
-
+        
         context = {
             'form': form,
             'autenticado': autenticado,
             'total_avlc': json.dumps(total_avlc),
             'total_av':total_avaliacoes,
             'unidades':Unidade.objects.filter(usuario=user).order_by('-id'),
-            'avaliacoes': Avaliacao.objects.filter(usuario=user),
             'pagar':pagamento(),
             'user':request.user,
 
         }
         return render(request, self.template_name, context)
+
 
 def home(request):
     return HttpResponse('<h1> Pagina INicial</h1>')

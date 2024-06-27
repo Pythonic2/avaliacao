@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404,redirect, HttpResponse
-from .models import Funcionario
+from .models import Funcionario, Avaliacao
 from .forms import AvaliacaoForm
 
 
@@ -20,3 +20,13 @@ def sei_la(request, matricula):
 
 def obrigado(request):
     return HttpResponse("<h1>Obrigado por nos avaliar</h1>")
+
+def listar_avaliacoes(request):
+    satisfacao = request.GET.get('satisfacao')
+    if satisfacao:
+        avaliacoes = Avaliacao.objects.filter(usuario=request.user, atendimento=int(satisfacao)).order_by('-id')
+        total = avaliacoes.count()
+    else:
+        avaliacoes = Avaliacao.objects.filter(usuario=request.user).order_by('-id')
+        total = avaliacoes.count()
+    return render(request, 'includes/list_avaliacoes.html', {'avaliacoes': avaliacoes,'total':total})

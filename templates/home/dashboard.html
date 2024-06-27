@@ -193,11 +193,22 @@
                             <h2>Avaliações</h2>
                         </div>
                     </div>
-                    <ul>
-                        {% for av in avaliacoes%}
-                            <li><a href="#">{{av}}</a></li>
-                        {%endfor%}
+                    <form hx-get="{% url 'listar_avaliacoes' %}" hx-target="#cont" class="d-flex align-items-center">
+                        <select name="satisfacao" id="satisfacao" class="form-select mb-0">
+                            <option >Selecione um Filtro</option>
+                            <option value="">Todos</option>
+                            <option value="4">Bom e Muito Bom</option>
+                            <option value="5">Muito Bom</option>
+                            <option value="1">Muito Ruim</option>
+                            <option value="2">Ruim</option>
+                            <option value="3">Regular</option>
+                        </select>
+                        <input type="submit" value="Filtrar" id="save-button" class="btn btn-block btn-gray-800 mb-0 ms-2">
+                    </form>
+                    <ul id="cont">
+                        {% include 'includes/list_avaliacoes.html' %}
                     </ul>
+                    
                     </div>
                 </div>
             </div>
