@@ -12,7 +12,8 @@ from .models import CustomUser
 from django.views.generic import TemplateView
 from datetime import timedelta
 from django.utils import timezone
-
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 User = CustomUser
 # Create your views here.
 
@@ -55,11 +56,9 @@ class LoginUsuario(LoginView):
             'invalid_login': gettext_lazy('Verifique o usuário e senha e tente novamente.'),
             'inactive': gettext_lazy('Usuário inativo.'),
         }
-        
         AuthenticationForm.error_messages = error_messages
-
         return super().form_invalid(form)
-
+@login_required
 def pagamento_aprovado(request):
     import json
     parametros = request.GET.dict()  # Converte QueryDict para um dicionário comum

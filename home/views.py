@@ -48,17 +48,19 @@ from django.db.models import Count
 from django.db.models.functions import TruncMonth
 from django.utils.dateformat import DateFormat
 from datetime import datetime
+import os
+
 def pagamento():
     import mercadopago
     # Adicione as credenciais
-    sdk = mercadopago.SDK("TEST-2660057787623497-042519-3b4d9f2d00767056b4773fd836409649-162016798")
+    sdk = mercadopago.SDK(f"{os.getenv('CREDEN')}")
 
     request = {
         "items": [
             {
                 "id": "1",
-                "title": "Prime Portal Feedback",
-                "description": "APlicação para feedback/ avaliações de clientes",
+                "title": "Prime Portal BR",
+                "description": "Portal de ferramentas Online",
                 "quantity": 1,
                 "currency_id": "BRL",
                 "unit_price": 39.90,
@@ -66,7 +68,7 @@ def pagamento():
         ],
         
         "back_urls": {
-            "success": "http://127.0.0.1:8000/aprovado/",
+            "success": "https://primeportalbr.com/aprovado/",
             
         },
         "auto_return": "approved",

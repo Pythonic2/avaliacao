@@ -6,7 +6,7 @@ from .views import DashBoardView,home
 
 urlpatterns = [
     path('dashboard/', DashBoardView.as_view(), name='dashboard'),
-    path('', home, name='home'),
+    path('', DashBoardView.as_view, name='home'),
     
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
