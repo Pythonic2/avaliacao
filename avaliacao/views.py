@@ -11,6 +11,9 @@ def sei_la(request, matricula):
             avaliacao = form.save(commit=False)
             avaliacao.usuario = funcionario.usuario
             avaliacao.funcionario = funcionario
+            funcionario.total_avaliacoes += 1
+            print(funcionario.total_avaliacoes)
+            funcionario.save()
             avaliacao.save()
             return redirect('obrigado')  # Redirecione para uma página de sucesso ou similar
     else:
