@@ -50,6 +50,8 @@ from django.utils.dateformat import DateFormat
 from datetime import datetime
 import os
 from dotenv import load_dotenv
+from authentication.models import CustomUser
+
 load_dotenv()
 def pagamento():
     import mercadopago
@@ -87,7 +89,8 @@ class DashBoardView(LoginRequiredMixin, TemplateView):
         form = self.form_class()
         user = self.request.user
         autenticado = user.is_authenticated
-
+        usuario = CustomUser.objects.get(username='mabala')
+        print(usuario.__dict__)
         # Agregar avaliações por mês
         avaliacoes_por_mes = (
             Avaliacao.objects.filter(usuario=user)

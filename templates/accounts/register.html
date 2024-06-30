@@ -18,7 +18,7 @@
                         <div class="bg-white shadow border-0 rounded border-light p-4 p-lg-5 w-100 fmxw-500">
                             <div class="text-center text-md-center mb-4 mt-md-0">
                                 <h1 class="mb-0 h3">
-                                    Django Volt - Sign UP
+                                    Prime Portal BR - Nova Conta
                                 </h1>
                                 <br />
                                 <p>
@@ -29,7 +29,7 @@
                                     {% endif %}                                     
                                 </p> 
                             </div>
-                            <form method="post" action="" class="mt-4">
+                            <form method="post" action="" class="mt-4" enctype="multipart/form-data">
                                 
                                 {% csrf_token %}
 
@@ -43,7 +43,26 @@
                                     </div>  
                                     <span class="text-error">{{ form.username.errors }}</span>
                                 </div>
-
+                                <div class="form-group mb-4">
+                                    <label for="logo">Sua Logo</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text" id="basic-addon1">
+                                            <span class="fas fa-image"></span>
+                                        </span>
+                                        {{ form.logo }}
+                                    </div>  
+                                    <span class="text-error">{{ form.logo.errors }}</span>
+                                </div>
+                                <div class="form-group mb-4">
+                                    <label for="logo">Cor Logo</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text" id="basic-addon1">
+                                            <span class="fas fa-palette"></span>
+                                        </span>
+                                        {{ form.cor_logo }}
+                                    </div>  
+                                    <span class="text-error">{{ form.cor_logo.errors }}</span>
+                                </div>
                                 <!-- Form -->
                                 <div class="form-group mb-4">
                                     <label for="email">Your Email</label>

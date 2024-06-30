@@ -12,6 +12,19 @@ class SignUpForm(UserCreationForm):
                 "class": "form-control"
             }
         ))
+    logo = forms.ImageField(
+        widget=forms.FileInput(
+            attrs={
+                "placeholder": "logo",
+                "class": "form-control"
+            }
+        ))
+    cor_logo = forms.CharField(
+        widget=forms.TextInput(attrs={'type': 'color'}),
+        label='Cor da Logo',
+        required=False,
+    )
+
     email = forms.EmailField(
         widget=forms.EmailInput(
             attrs={
@@ -33,7 +46,8 @@ class SignUpForm(UserCreationForm):
                 "class": "form-control"
             }
         ))
+    
 
     class Meta:
         model = CustomUser
-        fields = ('username', 'email', 'password1', 'password2')
+        fields = ('username', 'logo', 'cor_logo', 'email', 'password1', 'password2')

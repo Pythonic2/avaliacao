@@ -4,21 +4,25 @@
 </div>
 <div class="accordion accordion-flush" id="accordionFlushExample">
     {% for funci in funcionarios %}
-    <div class="accordion-item">
-        <h2 class="accordion-header" id="flush-heading{{ funci.id }}">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{ funci.id }}" aria-expanded="false" aria-controls="flush-collapse{{ funci.id }}">
-                Nome: {{ funci.nome }}, Matrícula: {{funci.matricula}}, Unidade: {{funci.unidade}}
-            </button>
-        </h2>
-        <div id="flush-collapse{{ funci.id }}" class="accordion-collapse collapse" aria-labelledby="flush-heading{{ funci.id }}" data-bs-parent="#accordionFlushExample">
-            <div class="accordion-body">
-               
+<div class="accordion-item">
+    <h2 class="accordion-header" id="flush-heading{{ funci.id }}">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{ funci.id }}" aria-expanded="false" aria-controls="flush-collapse{{ funci.id }}">
+            Nome: {{ funci.nome }}, Matrícula: {{ funci.matricula }}, Unidade: {{ funci.unidade }}
+        </button>
+    </h2>
+    <div id="flush-collapse{{ funci.id }}" class="accordion-collapse collapse" aria-labelledby="flush-heading{{ funci.id }}" data-bs-parent="#accordionFlushExample">
+        <div class="accordion-body">
+            {% if funci.qrcode %}
                 <p><strong>Qrcode:</strong> <img src="{{ funci.qrcode.url }}" alt="" id="qrcode-{{ funci.id }}" style="width: 10%;" class="qr">
-                <button onclick="printImage({{funci.id}})" class="btn btn-secondary">Imprimir</button>
-            </div>
+                <button onclick="printImage({{ funci.id }})" class="btn btn-secondary">Imprimir</button>
+            {% else %}
+                <p><strong>Qrcode não disponível.</strong></p>
+            {% endif %}
         </div>
     </div>
-    {% endfor %}
+</div>
+{% endfor %}
+
 </div>
 <script>
     function printAll() {

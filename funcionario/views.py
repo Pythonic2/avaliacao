@@ -50,7 +50,8 @@ from django.utils.dateformat import DateFormat
 from datetime import datetime
 from administrador_unidade.forms import NovoAdministradorForm
 from administrador_unidade.models import AdministradorUnidade
-
+from authentication.models import CustomUser
+from authentication.forms import SignUpForm
 
 
 class ListFuncionarios(LoginRequiredMixin,ListView):
@@ -167,6 +168,7 @@ class AuthorCreateView(LoginRequiredMixin, FormView):
         autenticado = user.is_authenticated
         form_unidade = NovaUnidadeForm
         form_administrador = NovoAdministradorForm
+        
         lista = Funcionario.objects.filter(usuario=user).order_by('-id')
         context['autenticado'] = autenticado
         context['funcionarios'] = lista
@@ -176,3 +178,4 @@ class AuthorCreateView(LoginRequiredMixin, FormView):
         context['unidades'] = Unidade.objects.filter(usuario=user).order_by('-id')
         context['administradores'] = AdministradorUnidade.objects.filter(usuario=user).order_by('-id')
         return context
+

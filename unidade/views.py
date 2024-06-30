@@ -19,7 +19,9 @@ def htmx_criar_unidade(request):
         context['unidades'] = Unidade.objects.filter(usuario=user).order_by('-id')
         return render(request, 'includes/unidades.html', context)
     else:
+        
         context['erro']=form.errors
+        print(context['erro'])
         return render(request, 'includes/unidades.html', context)
 
 def htmx_listar_unidade(request):

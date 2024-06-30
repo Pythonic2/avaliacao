@@ -1,16 +1,20 @@
-import qrcode
-from io import BytesIO
-from django.core.files import File
-from PIL import Image
-from django.urls import reverse
-from django.conf import settings
 from django.db import models
+from django.urls import reverse
+from django.core.files import File
+from io import BytesIO
+from PIL import Image
+import qrcode
+
 from unidade.models import Unidade
 from authentication.models import CustomUser
 
+def salvar_no_diretorio_do_user(instance, filename):
+    username = instance.usuario.username
+    return f'{username}/qrcode/{filename}'
+
 class Funcionario(models.Model):
     nome = models.CharField(max_length=150)
-    qrcode = models.ImageField(blank=True, upload_to='qrcode')
+    qrcode = models.ImageField(blank=True, upload_to=salvar_no_diretorio_do_user)
     site = models.CharField(max_length=150, default='https://primeportalbr.com/avaliacao/')
     codigo = models.CharField(max_length=300, blank=True)
     matricula = models.CharField(max_length=15, blank=True, unique=True)

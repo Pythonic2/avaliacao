@@ -12,10 +12,9 @@ from .models import CustomUser
 from django.views.generic import TemplateView
 from datetime import timedelta
 from django.utils import timezone
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+import os
 User = CustomUser
-# Create your views here.
 
 def logout_view(request):
     logout(request)
@@ -28,7 +27,7 @@ class RegisterUser(TemplateView):
         return render(request, "accounts/register.html", {"form": form})
 
     def post(self, request):
-        form = SignUpForm(request.POST)
+        form = SignUpForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get("username")
@@ -58,6 +57,8 @@ class LoginUsuario(LoginView):
         }
         AuthenticationForm.error_messages = error_messages
         return super().form_invalid(form)
+
+
 @login_required
 def pagamento_aprovado(request):
     import json
@@ -73,5 +74,3 @@ def pagamento_aprovado(request):
         return render(request,'accounts/retorno_pagamento.html',{'infos':'aprovado'})
     else:
         return render(request,'accounts/retorno_pagamento.html',{'infos':'recusado'})
-
-
