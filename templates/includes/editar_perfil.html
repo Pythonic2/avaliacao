@@ -1,0 +1,33 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Settings {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+<div class="form-group mb-4">
+        <label for="logo">Sua Logo</label>
+        <div class="input-group">
+            <span class="input-group-text" id="basic-addon1">
+                <span class="fas fa-image"></span>
+            </span>
+            {{ form_logo.logo }}
+        </div>  
+        <span class="text-error">{{ form_logo.logo.errors }}</span>
+    </div>
+    <div class="form-group mb-4">
+        <label for="logo">Cor Logo</label>
+        <div class="input-group" style="width:10%">
+            <span class="input-group-text" id="basic-addon1">
+                <span class="fas fa-palette"></span>
+            </span>
+            {{ form_logo.cor_logo }}
+        </div>  
+        <span class="text-error">{{ form_logo.cor_logo.errors }}</span>
+    </div>
+    <button type="submit" class="btn btn-primary">Salvar alterações</button>
+</form>
+{%endblock%}

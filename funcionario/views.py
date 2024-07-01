@@ -29,21 +29,13 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.http import JsonResponse
 from .forms import NovoFunciForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.utils import timezone
-from datetime import timedelta
 from django.http import JsonResponse
 from django.urls import reverse_lazy
 from django.views.generic import FormView
-from .forms import ContactForm
 from .models import Funcionario
 from django.http import JsonResponse
-from avaliacao.models import Avaliacao
 from unidade.models import Unidade
 from unidade.forms import NovaUnidadeForm
-from datetime import datetime
-from django.db.models import Count
-from django.utils.dateformat import DateFormat
-import json
 from django.db.models import Count
 from django.db.models.functions import TruncMonth
 from django.utils.dateformat import DateFormat
@@ -51,7 +43,7 @@ from datetime import datetime
 from administrador_unidade.forms import NovoAdministradorForm
 from administrador_unidade.models import AdministradorUnidade
 from authentication.models import CustomUser
-from authentication.forms import SignUpForm
+from authentication.forms import SignUpForm, EditProfileForm
 
 
 class ListFuncionarios(LoginRequiredMixin,ListView):
@@ -179,3 +171,14 @@ class AuthorCreateView(LoginRequiredMixin, FormView):
         context['administradores'] = AdministradorUnidade.objects.filter(usuario=user).order_by('-id')
         return context
 
+@login_required
+def editar_perfil(request):
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('editar_perfil')  # Redirecione para a página de perfil ou outra página de sua escolha
+    else:
+        form = EditProfileForm(instance=request.user)
+
+    return render(request, 'includes/editar_perfil.html', {'form_logo': form})

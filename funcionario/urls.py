@@ -15,6 +15,7 @@ urlpatterns = [
     path('detalhe-estabelecimento/<int:id>/', htmx_editar_estabelecimento, name='detalhe_estabelecimento'),
     path('update-estabelecimento/<int:id>/', htmx_update_estabelecimento, name='update_estabelecimento'),
     path('apagar-estabelecimento/<int:id>/', htmx_apagar_estabeleciento, name='apagar_estabelecimento'),
+    path('editar-perfil/', editar_perfil, name='editar_perfil'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
