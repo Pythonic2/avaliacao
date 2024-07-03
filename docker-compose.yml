@@ -3,8 +3,6 @@ services:
   bot:
     container_name: av-container
     restart: always
-    env_file: 
-      - stack.env  
     build: 
       context: .
       dockerfile: Dockerfile
