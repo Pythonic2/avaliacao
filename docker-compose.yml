@@ -1,8 +1,23 @@
-version: "1.0.0"
-services: 
-    projeto:
-        restart: always
-        build:
-          context: .
-          dorckerfile: Dockerfile
-        pull_policy: build
+version: '3.11'
+services:
+  bot:
+    container_name: av-container
+    restart: always
+    env_file: 
+      - stack.env  
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    pull_policy: build
+    
+    networks:
+      - network
+    
+    # volumes:
+      # - ./cogs:/app/cogs
+      # - ./db:/app/db
+      # - ./utils:/app/utils
+
+networks:
+  network:
+    name: conn
