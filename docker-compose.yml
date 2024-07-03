@@ -1,0 +1,8 @@
+version: "1.0.0"
+services: 
+    projeto:
+        container_name: av-container
+        restart: aways
+        build:
+          context: .
+          dorckerfile: Dockerfile
