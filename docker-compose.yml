@@ -6,3 +6,4 @@ services:
         build:
           context: .
           dorckerfile: Dockerfile
+        pull_policy: build
