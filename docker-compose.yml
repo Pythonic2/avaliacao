@@ -7,15 +7,3 @@ services:
       context: .
       dockerfile: Dockerfile
     pull_policy: build
-    
-    networks:
-      - network
-    
-    # volumes:
-      # - ./cogs:/app/cogs
-      # - ./db:/app/db
-      # - ./utils:/app/utils
-
-networks:
-  network:
-    name: conn
