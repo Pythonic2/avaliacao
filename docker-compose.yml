@@ -2,7 +2,4 @@ version: "1.0.0"
 services: 
     projeto:
         restart: always
-        build:
-          context: .
-          dorckerfile: Dockerfile
         pull_policy: build
