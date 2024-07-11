@@ -1,7 +1,7 @@
-version: '3.11'
+version: '3'
 services:
   bot:
-    container_name: teste
+    container_name: av-container
     restart: always
     build: 
       context: .
