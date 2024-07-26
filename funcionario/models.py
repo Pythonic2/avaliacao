@@ -43,7 +43,7 @@ class Funcionario(models.Model):
         qr_image = qr.make_image(fill='black', back_color='white')
         qr_image = qr_image.convert('RGB')
         
-        size = (310, 310)
+        size = (410, 410)
         qr_offset = Image.new('RGB', size, 'white')
         
         # Centralizar o QR code na imagem
