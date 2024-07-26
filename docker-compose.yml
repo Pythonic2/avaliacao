@@ -7,7 +7,7 @@ services:
     pull_policy: build
     restart: always
     ports:
-      - 8003:8000
+      - 8002:8000
     env_file:
       - stack.env
     networks:
