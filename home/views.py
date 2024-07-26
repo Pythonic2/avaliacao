@@ -52,34 +52,34 @@ import os
 from dotenv import load_dotenv
 from authentication.models import CustomUser
 
-load_dotenv()
-def pagamento():
-    import mercadopago
-    # Adicione as credenciais
-    sdk = mercadopago.SDK(f"{os.getenv('CREDEN')}")
+# load_dotenv()
+# def pagamento():
+#     import mercadopago
+#     # Adicione as credenciais
+#     sdk = mercadopago.SDK(f"{os.getenv('CREDEN')}")
 
-    request = {
-        "items": [
-            {
-                "id": "1",
-                "title": "Prime Portal BR",
-                "description": "Portal de ferramentas Online",
-                "quantity": 1,
-                "currency_id": "BRL",
-                "unit_price": 39.90,
-            },
-        ],
+#     request = {
+#         "items": [
+#             {
+#                 "id": "1",
+#                 "title": "Prime Portal BR",
+#                 "description": "Portal de ferramentas Online",
+#                 "quantity": 1,
+#                 "currency_id": "BRL",
+#                 "unit_price": 39.90,
+#             },
+#         ],
         
-        "back_urls": {
-            "success": "https://primeportalbr.com/aprovado/",
+#         "back_urls": {
+#             "success": "https://primeportalbr.com/aprovado/",
             
-        },
-        "auto_return": "approved",
-        }
+#         },
+#         "auto_return": "approved",
+#         }
 
-    preference_response = sdk.preference().create(request)
-    preference = preference_response["response"]
-    return preference['init_point']
+#     preference_response = sdk.preference().create(request)
+#     preference = preference_response["response"]
+#     return preference['init_point']
 
 class DashBoardView(LoginRequiredMixin, TemplateView):
     template_name = 'home/dashboard.html'
@@ -99,9 +99,9 @@ class DashBoardView(LoginRequiredMixin, TemplateView):
         )
         total_avaliacoes = Avaliacao.objects.filter(usuario=user).count()
         
-        if user.pagamento_atrasado:
-            user.status_pagamento = False
-            print(f"O pagamento do usuário {user.username} está atrasado!")
+        # if user.pagamento_atrasado:
+        #     user.status_pagamento = False
+        #     print(f"O pagamento do usuário {user.username} está atrasado!")
         # Transformar os dados em um formato adequado para o gráfico
         total_avlc = {DateFormat(avaliacao['month']).format('M'): avaliacao['total'] for avaliacao in avaliacoes_por_mes}
         
@@ -111,7 +111,7 @@ class DashBoardView(LoginRequiredMixin, TemplateView):
             'total_avlc': json.dumps(total_avlc),
             'total_av':total_avaliacoes,
             'unidades':Unidade.objects.filter(usuario=user).order_by('-id'),
-            'pagar':pagamento(),
+            #'pagar':pagamento(),
             'user':request.user,
 
         }

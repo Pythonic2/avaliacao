@@ -50,7 +50,6 @@
             </div>
         </div>
     </div>
-    {%if user.status_pagamento%}
     <div class="row">
         <div class="col-12 col-xl-8">
             <div class="card card-body border-0 shadow mb-4">
@@ -149,7 +148,6 @@
             </div>
         </div>
     </div>
-{%else%}
 <div class="py-4" id="teste">
     <div class="">
         <a href="{{pagar}}" class="text-black"> Não identificamos seu pagamento ainda:
@@ -161,6 +159,5 @@
         </div>
     </div>
 </div>
-{%endif%}
 {% endblock content %}
 
