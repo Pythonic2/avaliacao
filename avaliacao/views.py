@@ -24,7 +24,7 @@ def sei_la(request,id_usuario, matricula):
 
     return render(request, 'home/avaliacao.html', {'form': form,'cor':cor,'logo':logo})
 
-def obrigado(request,id_usuario, matricula):
+def obrigado(request,id_usuario):
     user = CustomUser.objects.get(id=id_usuario)
     cor = user.cor_logo
     logo = user.logo
