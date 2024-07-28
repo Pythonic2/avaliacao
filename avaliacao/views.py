@@ -21,7 +21,7 @@ def sei_la(request,id_usuario, matricula):
             return redirect('obrigado')  # Redirecione para uma página de sucesso ou similar
     else:
         form = AvaliacaoForm()
-
+    print(cor)
     return render(request, 'home/avaliacao.html', {'form': form,'cor':cor,'logo':logo})
 
 def obrigado(request):
