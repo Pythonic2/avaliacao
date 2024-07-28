@@ -1,10 +1,13 @@
 from django.shortcuts import render, get_object_or_404,redirect, HttpResponse
-from .models import Funcionario, Avaliacao
+from .models import Funcionario, Avaliacao, CustomUser
 from .forms import AvaliacaoForm
 
 
-def sei_la(request, matricula):
-    funcionario = get_object_or_404(Funcionario, matricula=matricula)
+def sei_la(request,id_usuario, matricula):
+    funcionario = get_object_or_404(Funcionario, matricula=matricula, usuario=id_usuario)
+    user = CustomUser.objects.get(id=id_usuario)
+    cor = user.cor_logo
+    logo = user.logo
     if request.method == 'POST':
         form = AvaliacaoForm(request.POST)
         if form.is_valid():
@@ -19,7 +22,7 @@ def sei_la(request, matricula):
     else:
         form = AvaliacaoForm()
 
-    return render(request, 'home/avaliacao.html', {'form': form})
+    return render(request, 'home/avaliacao.html', {'form': form,'cor':cor,'logo':logo})
 
 def obrigado(request):
     return render(request,'home/obrigado_avaliar.html')

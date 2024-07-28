@@ -15,7 +15,7 @@ def salvar_no_diretorio_do_user(instance, filename):
 class Funcionario(models.Model):
     nome = models.CharField(max_length=150)
     qrcode = models.ImageField(blank=True, upload_to=salvar_no_diretorio_do_user)
-    site = models.CharField(max_length=150, default='https://primeportalbr.cloudboosterlab.org/avaliacao/')
+    site = models.CharField(max_length=150, default='http://127.0.0.1:8000/avaliacao/')
     codigo = models.CharField(max_length=300, blank=True)
     matricula = models.CharField(max_length=15, blank=True, unique=True)
     unidade = models.ForeignKey(Unidade, on_delete=models.CASCADE)
@@ -29,7 +29,7 @@ class Funcionario(models.Model):
         if not self.pk:
             super().save(*args, **kwargs)
 
-        self.codigo = f"{self.site}{self.matricula}"
+        self.codigo = f"{self.site}{self.usuario.id}/{self.matricula}"
         
         qr = qrcode.QRCode(
             version=1,
