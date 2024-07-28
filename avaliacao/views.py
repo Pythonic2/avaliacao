@@ -24,8 +24,11 @@ def sei_la(request,id_usuario, matricula):
 
     return render(request, 'home/avaliacao.html', {'form': form,'cor':cor,'logo':logo})
 
-def obrigado(request):
-    return render(request,'home/obrigado_avaliar.html')
+def obrigado(request,id_usuario, matricula):
+    user = CustomUser.objects.get(id=id_usuario)
+    cor = user.cor_logo
+    logo = user.logo
+    return render(request,'home/obrigado_avaliar.html', {'cor':cor,'logo':logo})
 
 def listar_avaliacoes(request):
     satisfacao = request.GET.get('satisfacao')
