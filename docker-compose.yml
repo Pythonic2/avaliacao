@@ -12,6 +12,24 @@ services:
       - stack.env
     networks:
       - cloudflare_default
+    
+    volumes:
+          - primeportal_db_db_data:/var/lib/postgresql/data
+          - user_photos:/app/media
+
+volumes:
+  primeportal_db_db_data:
+  user_photos:
+
+networks:
+  cloudflare_default:
+    external: true
+
+
+networks:
+  cloudflare_default:
+    external: true
+
 networks:
   cloudflare_default:
     external: true
