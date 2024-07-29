@@ -25,7 +25,6 @@ networks:
   cloudflare_default:
     external: true
 
-
 networks:
   cloudflare_default:
     external: true
