@@ -4,10 +4,12 @@ from django.core.files import File
 from io import BytesIO
 from PIL import Image
 import qrcode
-
+import os
 from unidade.models import Unidade
 from authentication.models import CustomUser
-
+from dotenv import load_dotenv
+load_dotenv()
+print()
 def salvar_no_diretorio_do_user(instance, filename):
     username = instance.usuario.username
     return f'{username}/qrcode/{filename}'
