@@ -65,7 +65,7 @@ def htmx_editar_funcionario(request, id):
     funcionario = Funcionario.objects.get(id=id)
     unidades = Unidade.objects.filter(usuario=request.user)
     print(unidades)
-    context = {'funci': funcionario, 'tete': '','form':NovoFunciForm,'unidades':unidades}
+    context = {'funci': funcionario, 'link': 'Gerenciar Negocio', 'sub_link':'Funcionário','form':NovoFunciForm,'unidades':unidades}
     return render(request, 'includes/editar_funcionario.html', context)
 
 def htmx_update_funcionario(request,id):
@@ -93,7 +93,7 @@ def htmx_apagar_funcionario(request, id):
 def htmx_editar_estabelecimento(request, id):
     unidade = Unidade.objects.get(id=id)
     administradores = AdministradorUnidade.objects.filter(usuario=request.user)
-    context = {'estabelecimento': unidade, 'tete': '','administradores':administradores}
+    context = {'estabelecimento': unidade, 'link': 'Gerenciar Negocio', 'sub_link':'Estabelecimento','administradores':administradores}
     return render(request, 'includes/editar_estabelecimento.html', context)
 
 

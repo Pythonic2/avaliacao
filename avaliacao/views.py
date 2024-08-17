@@ -36,3 +36,14 @@ def listar_avaliacoes(request):
         avaliacoes = Avaliacao.objects.filter(usuario=request.user).order_by('-id')
         total = avaliacoes.count()
     return render(request, 'includes/list_avaliacoes.html', {'avaliacoes': avaliacoes,'total':total})
+
+
+def listar_avaliacoes_completas(request):
+    satisfacao = request.GET.get('satisfacao')
+    if satisfacao:
+        avaliacoes = Avaliacao.objects.filter(usuario=request.user, atendimento=int(satisfacao)).order_by('-id')
+        total = avaliacoes.count()
+    else:
+        avaliacoes = Avaliacao.objects.filter(usuario=request.user).order_by('-id')
+        total = avaliacoes.count()
+    return render(request, 'home/lista_todas_avlc.html', {'avaliacoes': avaliacoes,'total':total})
