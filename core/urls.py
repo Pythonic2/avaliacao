@@ -10,4 +10,5 @@ urlpatterns = [
     path('', include('funcionario.urls')),
     path('', include('home.urls')),
     path('', include('unidade.urls')),
+    path('', include('cliente.urls')),
 ]

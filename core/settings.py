@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'avaliacao',
     'administrador_unidade',
     'home',
+    'cliente',
 ]
 
 MIDDLEWARE = [
