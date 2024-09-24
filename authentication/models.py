@@ -15,6 +15,7 @@ class CustomUser(AbstractUser):
     data_cobrar = models.DateTimeField(default=timezone.now() + timedelta(days=30))
     logo = models.ImageField(blank=True, upload_to=salvar_no_diretorio_do_user)
     cor_logo = models.CharField(max_length=7, blank=True, null=True)
+    
     def save(self, *args, **kwargs):
         is_new = self._state.adding
         is_staff = False 

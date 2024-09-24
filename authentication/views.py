@@ -4,7 +4,6 @@ from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.contrib.auth.views import LoginView
 from django.contrib import messages
-from django.contrib.auth import authenticate
 from django.utils.translation import gettext_lazy
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import SignUpForm
@@ -15,6 +14,8 @@ from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 import os
 User = CustomUser
+from django.contrib.auth import authenticate
+
 
 def logout_view(request):
     logout(request)

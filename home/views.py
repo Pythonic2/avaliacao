@@ -112,7 +112,7 @@ class DashBoardView(LoginRequiredMixin, TemplateView):
             'total_av':total_avaliacoes,
             'unidades':Unidade.objects.filter(usuario=user).order_by('-id'),
             #'pagar':pagamento(),
-            'user':request.user,
+            'user': user,
 
         }
         return render(request, self.template_name, context)
