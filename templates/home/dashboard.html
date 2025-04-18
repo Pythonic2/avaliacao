@@ -138,50 +138,87 @@
     <div class="row">
         <div class="col-12 col-xl-8">
             <div class="row">
-                <div class="col-12 mb-4">
-                    
+                
+                {% for unidade in dados_unidades %}
+        <div class="col-12 col-xxl-8 mb-8">
+            <div class="card border-0 shadow">
+            <div class="card-header border-bottom d-flex align-items-center justify-content-between">
+                <h2 class="fs-5 fw-bold mb-0">{{unidade.unidade}}</h2>
+                <!-- <a href="#" class="btn btn-sm btn-primary">See tasks</a> -->
+            </div>
+            <div class="card-body">
+                <!-- Project 1 -->
+                <div class="row mb-4">
+                <div class="col-auto">
+                    <svg class="icon icon-sm text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+                    <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path>
+                    </svg>
                 </div>
-                <div class="col-12 col-xxl-6 mb-4">
-                    <div class="card border-0 shadow">
-                        <div class="card-header border-bottom d-flex align-items-center justify-content-between">
-                            <h2 class="fs-5 fw-bold mb-0">Estabelecimentos</h2>
+                <div class="col">
+                    <h3>Atendimento:</h3>
+                        
+                    {% for descricao, qtd in unidade.atendimento.items %}
+                        
+                        <div class="progress-wrapper">
+                        <div class="progress-info">
+                            <div class="h6 mb-0">{{ descricao }} {{qtd}}</div>
+                            
+                                <div class="small fw-bold text-white-500"><span>{{qtd}}</span></div>
+                           
                         </div>
-                        <div class="card-body">
-                            <ul class="list-group list-group-flush list my--3">
-                                {% for unidade in unidades%}
-                                <li class="list-group-item px-0">
-                                    <div class="row align-items-center">
-                                    <div class="col-auto">
-                                        <!-- Avatar -->
-                                        <a href="#" class="avatar">
-                                            <img class="rounded" alt="Image placeholder" src="{{user.logo.url}}">
-                                        </a>
-                                    </div>
-                                    <div class="col-auto ms--2">
-                                        <h4 class="h6 mb-0">
-                                            <a href="#">{{unidade.nome}}</a>
-                                        </h4>
-                                        <div class="d-flex align-items-center">
-                                            <div class="bg-success dot rounded-circle me-1"></div>
-                                            <small>{{unidade.administrador.cargo}} - {{unidade.administrador}}</small>
-                                        </div>
-                                    </div>
-                                    <div class="col text-end">
-                                        
-                                        <a href="{% url 'list_funci'%}#estab" class="btn btn-sm btn-secondary d-inline-flex align-items-center">
-                                            <svg class="icon icon-xxs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
-                                            Visualizar
-                                        </a>
-                                        
-                                    </div>
-                                    </div>
-                                </li>
-                                {%endfor%}
-                                
-                            </ul>
+                        <div class="progress mb-0">
+                            {% if descricao == 'Muito Ruim'%}
+                                <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="{{qtd}}" aria-valuemin="0" aria-valuemax="100" style="width: {{qtd}}%;"></div>
+                            {% elif descricao == 'Ruim'%}
+                                <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="{{qtd}}" aria-valuemin="0" aria-valuemax="100" style="width: {{qtd}}%;"></div>
+                            {% elif descricao == 'Regular'%}
+                                <div class="progress-bar bg-info" role="progressbar" aria-valuenow="{{qtd}}" aria-valuemin="0" aria-valuemax="100" style="width: {{qtd}}%;"></div>
+                            {% elif descricao == 'Bom'%}
+                                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="{{qtd}}" aria-valuemin="0" aria-valuemax="100" style="width: {{qtd}}%;"></div>
+                            {% elif descricao == 'Muito Bom'%}
+                                <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="{{qtd}}" aria-valuemin="0" aria-valuemax="100" style="width: {{qtd}}%;"></div>
+                            {%endif%}
                         </div>
-                    </div>
+                        </div>
+                        
+                    {%endfor%}
+
+                    <h3>Produtos/Serviços:</h3>
+                        
+                    {% for descricao, qtd in unidade.produto_servico.items %}
+                        
+                        <div class="progress-wrapper">
+                        <div class="progress-info">
+                            <div class="h6 mb-0">{{ descricao }} {{qtd}}</div>
+                            
+                                <div class="small fw-bold text-white-500"><span>{{qtd}}</span></div>
+                           
+                        </div>
+                        <div class="progress mb-0">
+                            {% if descricao == 'Muito Ruim'%}
+                                <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="{{qtd}}" aria-valuemin="0" aria-valuemax="100" style="width: {{qtd}}%;"></div>
+                            {% elif descricao == 'Ruim'%}
+                                <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="{{qtd}}" aria-valuemin="0" aria-valuemax="100" style="width: {{qtd}}%;"></div>
+                            {% elif descricao == 'Regular'%}
+                                <div class="progress-bar bg-info" role="progressbar" aria-valuenow="{{qtd}}" aria-valuemin="0" aria-valuemax="100" style="width: {{qtd}}%;"></div>
+                            {% elif descricao == 'Bom'%}
+                                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="{{qtd}}" aria-valuemin="0" aria-valuemax="100" style="width: {{qtd}}%;"></div>
+                            {% elif descricao == 'Muito Bom'%}
+                                <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="{{qtd}}" aria-valuemin="0" aria-valuemax="100" style="width: {{qtd}}%;"></div>
+                            {%endif%}
+                        </div>
+                        </div>
+                        
+                    {%endfor%}
                 </div>
+                </div>
+                <!-- Project 2 -->
+                
+            </div>
+            </div>
+        </div>
+    {%endfor%}
                 
             </div>
         </div>
@@ -215,6 +252,10 @@
             
         </div>
     </div>
+    
+
+
+    
 {% comment %} <div class="py-4" id="teste">
     <div class="">
         <a href="{{pagar}}" class="text-black"> Não identificamos seu pagamento ainda:

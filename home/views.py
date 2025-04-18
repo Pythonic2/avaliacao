@@ -115,6 +115,38 @@ class DashBoardView(LoginRequiredMixin, TemplateView):
             'user': user,
 
         }
+        OPCOES_SATISFACAO = {
+        1: 'Muito Ruim',
+        2: 'Ruim',
+        3: 'Regular',
+        4: 'Bom',
+        5: 'Muito Bom'
+    }
+
+        # Lista que vai guardar os dados por unidade
+        dados_unidades = []
+
+        unidades = Unidade.objects.filter(usuario=request.user)
+
+        for unidade in unidades:
+            contagem_atendimento = {OPCOES_SATISFACAO[nota]: 0 for nota in OPCOES_SATISFACAO}
+            contagem_produto_servico = {OPCOES_SATISFACAO[nota]: 0 for nota in OPCOES_SATISFACAO}
+
+            funcionarios = Funcionario.objects.filter(unidade=unidade)
+
+            for func in funcionarios:
+                avaliacoes = Avaliacao.objects.filter(funcionario=func, usuario=request.user)
+
+                for nota in OPCOES_SATISFACAO.keys():
+                    contagem_atendimento[OPCOES_SATISFACAO[nota]] += avaliacoes.filter(atendimento=nota).count()
+                    contagem_produto_servico[OPCOES_SATISFACAO[nota]] += avaliacoes.filter(produto_servico=nota).count()
+
+            dados_unidades.append({
+                'unidade': unidade.nome,
+                'atendimento': contagem_atendimento,
+                'produto_servico': contagem_produto_servico,
+            })
+        context['dados_unidades'] = dados_unidades
         return render(request, self.template_name, context)
 
 
