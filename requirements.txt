@@ -10,6 +10,7 @@ idna
 mercadopago
 packaging
 pillow
+psycopg
 pydantic
 pydantic_core
 pypng
